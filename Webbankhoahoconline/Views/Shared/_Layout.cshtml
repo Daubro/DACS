@@ -114,15 +114,15 @@
 						</div>
 						<div class="mainmenu pull-left">
 							<ul class="nav navbar-nav collapse navbar-collapse">
-								<li><a href="index.html" class="active">Home</a></li>
+								<li><a asp-controller="Home" class="active">Home</a></li>
 								<li class="dropdown">
-									<a href="#">Khóa học<i class="fa fa-angle-down"></i></a>
+									<a asp-controller="Course">Khóa học<i class="fa fa-angle-down"></i></a>
 									<ul role="menu" class="sub-menu">
-										<li><a href="shop.html">Danh sách khóa học</a></li>
-										<li><a href="product-details.html">Chi tiết khóa học</a></li>
-										<li><a href="checkout.html">Thanh toán</a></li>
-										<li><a href="cart.html">Giỏ khóa học</a></li>
-										<li><a href="login.html">Đăng nhập</a></li>
+										<li><a asp-controller="Category">Danh sách khóa học</a></li>
+										<li><a asp-controller="Course" asp-action="Details">Chi tiết khóa học</a></li>
+										<li><a asp-controller="Cart" asp-action="Checkout">Thanh toán</a></li>
+										<li><a asp-controller="Cart">Giỏ hàng</a></li>
+										<li><a >Đăng nhập</a></li>
 									</ul>
 								</li>
 								<li class="dropdown">
