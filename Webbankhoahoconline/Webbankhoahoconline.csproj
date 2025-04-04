@@ -23,4 +23,9 @@
     <PackageReference Include="RestSharp" Version="112.1.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+    <Folder Include="Views\Instructor\" />
+  </ItemGroup>
+
 </Project>

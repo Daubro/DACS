@@ -18,5 +18,6 @@ namespace Webbankhoahoconline.Models
 
         [Required]
         public string Role { get; set; } = "Customer"; // "Admin" hoặc "Customer"
+      
     }
 }

@@ -1,33 +1,34 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Webbankhoahoconline.Repositories;
-using Webbankhoahoconline.Models;
 
 namespace Webbankhoahoconline.Controllers
 {
-    public class CategoryController : Controller
+    public class OrderController : Controller
     {
         private readonly DataContext _context;
 
-        public CategoryController(DataContext context)
+        public OrderController(DataContext context)
         {
             _context = context;
         }
 
         public async Task<IActionResult> Index()
         {
-            var categories = await _context.Categories.ToListAsync();
-            return View(categories);
+            var orders = await _context.Orders.Include(o => o.OrderDetails).ToListAsync();
+            return View(orders);
         }
 
         public async Task<IActionResult> Details(int id)
         {
-            var category = await _context.Categories.FindAsync(id);
-            if (category == null)
+            var order = await _context.Orders
+                .Include(o => o.OrderDetails)
+                .FirstOrDefaultAsync(o => o.Id == id);
+            if (order == null)
             {
                 return NotFound();
             }
-            return View(category);
+            return View(order);
         }
     }
 }

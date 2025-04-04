@@ -8,10 +8,10 @@ namespace Webbankhoahoconline.Models
         [Key]
         public int Id { get; set; }
 
-        [Required, MinLength(4, ErrorMessage = "Yêu cầu nhập tên khóa học")]
+        [Required, MinLength(4, ErrorMessage = "Tên khóa học phải có ít nhất 4 ký tự")]
         public string Name { get; set; }
 
-        [Required, MinLength(10, ErrorMessage = "Yêu cầu nhập mô tả khóa học")]
+        [Required, MinLength(10, ErrorMessage = "Mô tả khóa học phải có ít nhất 10 ký tự")]
         public string Description { get; set; }
 
         [Required]
@@ -19,16 +19,20 @@ namespace Webbankhoahoconline.Models
         public decimal Price { get; set; }
 
         [Required, Url(ErrorMessage = "Yêu cầu nhập đúng định dạng URL")]
-        public string? ImageUrl { get; set; }
+        public string ImageUrl { get; set; }
 
         [Required]
         public string Slug { get; set; }
 
-        public int Status { get; set; }
+        public int Status { get; set; } // 0: Ẩn, 1: Hiển thị
 
-        // Khóa ngoại liên kết với CategoryModel
+        // Liên kết với danh mục khóa học
         public int CategoryId { get; set; }
         [ForeignKey("CategoryId")]
         public CategoryModel Category { get; set; }
+        public int InstructorId { get; set; }
+        [ForeignKey("InstructorId")]
+        public InstructorModel Instructor { get; set; }
+
     }
 }

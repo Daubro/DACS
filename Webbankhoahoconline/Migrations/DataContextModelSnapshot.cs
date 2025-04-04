@@ -108,6 +108,9 @@ namespace Webbankhoahoconline.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("InstructorId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -126,7 +129,41 @@ namespace Webbankhoahoconline.Migrations
 
                     b.HasIndex("CategoryId");
 
+                    b.HasIndex("InstructorId");
+
                     b.ToTable("Courses");
+                });
+
+            modelBuilder.Entity("Webbankhoahoconline.Models.InstructorModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AvatarUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Bio")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Instructors");
                 });
 
             modelBuilder.Entity("Webbankhoahoconline.Models.OrderDetailModel", b =>
@@ -226,12 +263,20 @@ namespace Webbankhoahoconline.Migrations
             modelBuilder.Entity("Webbankhoahoconline.Models.CourseModel", b =>
                 {
                     b.HasOne("Webbankhoahoconline.Models.CategoryModel", "Category")
-                        .WithMany()
+                        .WithMany("Courses")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Webbankhoahoconline.Models.InstructorModel", "Instructor")
+                        .WithMany("Courses")
+                        .HasForeignKey("InstructorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Category");
+
+                    b.Navigation("Instructor");
                 });
 
             modelBuilder.Entity("Webbankhoahoconline.Models.OrderDetailModel", b =>
@@ -267,6 +312,16 @@ namespace Webbankhoahoconline.Migrations
             modelBuilder.Entity("Webbankhoahoconline.Models.CartModel", b =>
                 {
                     b.Navigation("Items");
+                });
+
+            modelBuilder.Entity("Webbankhoahoconline.Models.CategoryModel", b =>
+                {
+                    b.Navigation("Courses");
+                });
+
+            modelBuilder.Entity("Webbankhoahoconline.Models.InstructorModel", b =>
+                {
+                    b.Navigation("Courses");
                 });
 
             modelBuilder.Entity("Webbankhoahoconline.Models.OrderModel", b =>

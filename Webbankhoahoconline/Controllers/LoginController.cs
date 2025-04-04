@@ -1,4 +1,4 @@
-﻿                  namespace Webbankhoahoconline.Controllers
+﻿namespace Webbankhoahoconline.Controllers
 {
     public class LoginController
     {
