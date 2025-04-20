@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Webbankhoahoconline.Models;
-using System;
-using System.Linq;
+
 
 namespace Webbankhoahoconline.Repositories
 {
@@ -11,13 +10,13 @@ namespace Webbankhoahoconline.Repositories
         {
             _context.Database.Migrate();
 
-            // Kiểm tra và thêm Instructor nếu chưa có
             if (!_context.Instructors.Any())
             {
                 _context.Instructors.AddRange(
                     new InstructorModel
                     {
                         Name = "Nguyễn Văn Anh",
+                        Slug = "nguyen-van-anh", 
                         Email = "nguyenvana@example.com",
                         Bio = "Chuyên gia lập trình Web với hơn 10 năm kinh nghiệm.",
                         AvatarUrl = "nguyenvana.jpg",
@@ -26,6 +25,7 @@ namespace Webbankhoahoconline.Repositories
                     new InstructorModel
                     {
                         Name = "Trần Thị Bin",
+                        Slug = "tran-thi-bin", 
                         Email = "tranthib@example.com",
                         Bio = "Chuyên gia khoa học dữ liệu, giảng viên tại các trường đại học.",
                         AvatarUrl = "tranthib.jpg",
@@ -34,6 +34,7 @@ namespace Webbankhoahoconline.Repositories
                 );
                 _context.SaveChanges();
             }
+
 
             // Lấy danh sách Instructors đã có trong database
             var instructorList = _context.Instructors.ToList();

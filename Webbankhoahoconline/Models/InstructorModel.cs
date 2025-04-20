@@ -25,6 +25,7 @@ namespace Webbankhoahoconline.Models
         [Required, Url(ErrorMessage = "Yêu cầu nhập đúng định dạng URL")]
         [Display(Name = "Ảnh đại diện")]
         public string AvatarUrl { get; set; }
+        public string Slug { get; set; }
 
         [Display(Name = "Ngày tham gia")]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

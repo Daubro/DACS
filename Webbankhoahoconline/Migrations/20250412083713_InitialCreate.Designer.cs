@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Webbankhoahoconline.Repositories;
 
@@ -11,9 +12,11 @@ using Webbankhoahoconline.Repositories;
 namespace Webbankhoahoconline.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20250412083713_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,19 +36,8 @@ namespace Webbankhoahoconline.Migrations
                     b.Property<int?>("CartModelId")
                         .HasColumnType("int");
 
-                    b.Property<long>("CourseId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("CourseName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
@@ -53,6 +45,8 @@ namespace Webbankhoahoconline.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CartModelId");
+
+                    b.HasIndex("CourseId");
 
                     b.ToTable("CartItems");
                 });
@@ -263,6 +257,14 @@ namespace Webbankhoahoconline.Migrations
                     b.HasOne("Webbankhoahoconline.Models.CartModel", null)
                         .WithMany("Items")
                         .HasForeignKey("CartModelId");
+
+                    b.HasOne("Webbankhoahoconline.Models.CourseModel", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
                 });
 
             modelBuilder.Entity("Webbankhoahoconline.Models.CourseModel", b =>

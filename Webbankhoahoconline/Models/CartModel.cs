@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace Webbankhoahoconline.Models
 {
@@ -10,6 +11,6 @@ namespace Webbankhoahoconline.Models
 
         public List<CartItemModel> Items { get; set; } = new List<CartItemModel>();
 
-        public decimal TotalPrice => Items.Sum(i => i.Course.Price * i.Quantity);
+        public decimal TotalPrice => Items.Sum(i => i.Price * i.Quantity);
     }
 }

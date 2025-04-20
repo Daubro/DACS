@@ -8,14 +8,24 @@ namespace Webbankhoahoconline.Models
         [Key]
         public int Id { get; set; }
 
-        [Required]
-        public int CourseId { get; set; }
-
-        [ForeignKey("CourseId")]
-        public CourseModel Course { get; set; }
-
-        [Required]
-        [Range(1, int.MaxValue, ErrorMessage = "Số lượng phải lớn hơn 0")]
+        public long CourseId { get; set; }
+        public string CourseName { get; set; }
         public int Quantity { get; set; }
+        public decimal Price { get; set; }
+
+        public decimal TotalPrice => Price * Quantity;
+
+        public string ImageUrl { get; set; }
+
+        public CartItemModel() { }
+
+        public CartItemModel(CourseModel course)
+        {
+            CourseId = course.Id;
+            CourseName = course.Name;
+            Price = course.Price;
+            ImageUrl = course.ImageUrl;
+            Quantity = 1;
+        }
     }
 }

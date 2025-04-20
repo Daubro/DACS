@@ -20,12 +20,12 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="9.0.3" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="9.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="RestSharp" Version="112.1.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Migrations\" />
-    <Folder Include="Views\Instructor\" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Webbankhoahoconline.Repositories; 
 using Webbankhoahoconline.Models;
@@ -10,30 +10,28 @@ namespace Webbankhoahoconline.Controllers
 {
     public class CourseController : Controller
     {
-        private readonly DataContext _context;
+        private readonly DataContext _dataContext;
 
         public CourseController(DataContext context)
         {
-            _context = context;
+            _dataContext = context;
         }
 
 
         // Danh sách khóa học
         public async Task<IActionResult> Index()
         {
-            var courses = await _context.Courses.ToListAsync();
+            var courses = await _dataContext.Courses.ToListAsync();
             return View(courses);
         }
 
         // Xem chi tiết khóa học
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Details(int Id )
         {
-            var course = await _context.Courses.FindAsync(id);
-            if (course == null)
-            {
-                return NotFound();
-            }
-            return View(course);
+            if (Id == null) return RedirectToAction("Index");
+
+            var coursesById = _dataContext.Courses.Where(co => co.Id == Id).FirstOrDefault();
+            return View(coursesById);
         }
 
         // Hiển thị form thêm khóa học (Chỉ Admin mới có quyền)
@@ -51,8 +49,8 @@ namespace Webbankhoahoconline.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Courses.Add(course);
-                await _context.SaveChangesAsync();
+                _dataContext.Courses.Add(course);
+                await _dataContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(course);
@@ -62,7 +60,7 @@ namespace Webbankhoahoconline.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id)
         {
-            var course = await _context.Courses.FindAsync(id);
+            var course = await _dataContext.Courses.FindAsync(id);
             if (course == null)
             {
                 return NotFound();
@@ -83,8 +81,8 @@ namespace Webbankhoahoconline.Controllers
 
             if (ModelState.IsValid)
             {
-                _context.Courses.Update(course);
-                await _context.SaveChangesAsync();
+                _dataContext.Courses.Update(course);
+                await _dataContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(course);
@@ -94,14 +92,14 @@ namespace Webbankhoahoconline.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
-            var course = await _context.Courses.FindAsync(id);
+            var course = await _dataContext.Courses.FindAsync(id);
             if (course == null)
             {
                 return NotFound();
             }
 
-            _context.Courses.Remove(course);
-            await _context.SaveChangesAsync();
+            _dataContext.Courses.Remove(course);
+            await _dataContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
     }
