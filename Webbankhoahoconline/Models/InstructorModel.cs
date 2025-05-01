@@ -10,7 +10,7 @@ namespace Webbankhoahoconline.Models
         [Key]
         public int Id { get; set; }
 
-        [Required, MinLength(4, ErrorMessage = "Tên giảng viên phải có ít nhất 4 ký tự")]
+        [Required(ErrorMessage = "Tên giảng viên phải có ít nhất 4 ký tự")]
         [Display(Name = "Tên giảng viên")]
         public string Name { get; set; }
 
@@ -18,7 +18,7 @@ namespace Webbankhoahoconline.Models
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required, MinLength(10, ErrorMessage = "Mô tả phải có ít nhất 10 ký tự")]
+        [Required( ErrorMessage = "Bắt buộc nhập mô tả")]
         [Display(Name = "Mô tả")]
         public string Bio { get; set; }
 

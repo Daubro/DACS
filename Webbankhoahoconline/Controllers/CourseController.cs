@@ -1,10 +1,8 @@
-﻿ using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Webbankhoahoconline.Repositories; 
+﻿using Microsoft.AspNetCore.Mvc;
 using Webbankhoahoconline.Models;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
+using Webbankhoahoconline.Repositories;
 
 namespace Webbankhoahoconline.Controllers
 {
@@ -17,7 +15,6 @@ namespace Webbankhoahoconline.Controllers
             _dataContext = context;
         }
 
-
         // Danh sách khóa học
         public async Task<IActionResult> Index()
         {
@@ -26,12 +23,17 @@ namespace Webbankhoahoconline.Controllers
         }
 
         // Xem chi tiết khóa học
-        public async Task<IActionResult> Details(int Id )
+        public async Task<IActionResult> Details(int id)
         {
-            if (Id == null) return RedirectToAction("Index");
+            if (id == 0) return RedirectToAction("Index");
 
-            var coursesById = _dataContext.Courses.Where(co => co.Id == Id).FirstOrDefault();
-            return View(coursesById);
+            var courseById = await _dataContext.Courses
+                .FirstOrDefaultAsync(co => co.Id == id);
+
+            if (courseById == null)
+                return NotFound();
+
+            return View(courseById);
         }
 
         // Hiển thị form thêm khóa học (Chỉ Admin mới có quyền)

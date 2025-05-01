@@ -1,6 +1,7 @@
-using System.Data.Entity;
+
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Webbankhoahoconline.Models;
 using Webbankhoahoconline.Repositories;
 
@@ -29,8 +30,20 @@ namespace Webbankhoahoconline.Controllers
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public IActionResult Error(int statuscode)
         {
+            if(statuscode == 404)
+            {
+                return View("NotFound");
+            }
+            else if (statuscode == 500)
+            {
+                return View("ServerError");
+            }
+            else
+            {
+                return View("Error");
+            }
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }

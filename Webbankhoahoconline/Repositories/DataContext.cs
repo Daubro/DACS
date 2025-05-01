@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Webbankhoahoconline.Models;
 
 namespace Webbankhoahoconline.Repositories
 {
-    public class DataContext : DbContext
+    public class DataContext : IdentityDbContext<ApplicationUser>
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
@@ -13,7 +14,7 @@ namespace Webbankhoahoconline.Repositories
         public DbSet<CartItemModel> CartItems { get; set; }
         public DbSet<OrderModel> Orders { get; set; }
         public DbSet<OrderDetailModel> OrderDetails { get; set; }
-        public DbSet<UserModel> Users { get; set; }
+        
         public DbSet<InstructorModel> Instructors { get; set; }
 
 

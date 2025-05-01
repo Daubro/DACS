@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Webbankhoahoconline.Repositories.Validation;
 
 namespace Webbankhoahoconline.Models
 {
@@ -18,13 +19,13 @@ namespace Webbankhoahoconline.Models
         [Range(0, double.MaxValue, ErrorMessage = "Giá phải là số dương")]
         public decimal Price { get; set; }
 
-        [Required, Url(ErrorMessage = "Yêu cầu nhập đúng định dạng URL")]
-        public string ImageUrl { get; set; }
-
-        [Required]
+        public string ImageUrl { get; set; } 
+        [NotMapped]
+        [FileExtension]
+        public IFormFile? ImageFile { get; set; } 
         public string Slug { get; set; }
 
-        public int Status { get; set; } // 0: Ẩn, 1: Hiển thị
+        public int Status { get; set; } 
 
         // Liên kết với danh mục khóa học
         public int CategoryId { get; set; }

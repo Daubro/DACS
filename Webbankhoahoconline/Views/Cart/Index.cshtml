@@ -45,28 +45,30 @@
                                     <p class="cart_total_price">$@(1 * item.Price)</p>
                                 </td>
                                 <td class="cart_delete">
-                                    <a class="cart_quantity_delete" asp-controller="Cart" asp-action="Remove" asp-route-id="@item.CourseId" style="padding: 0; margin: 0;">
+                                    <a class="cart_quantity_delete text-danger" asp-controller="Cart" asp-action="Remove" asp-route-id="@item.CourseId" style="padding: 0; margin: 0;">
                                         <i class="fa fa-times" style="font-size: 18px;"></i>
                                     </a>
                                 </td>
                             </tr>
                         }
+
                         <tr>
-                            <td colspan="4" class="text-right"><strong>Total Price:</strong></td>
-                            <td class="cart_total">
-                                <p class="cart_total_price">$@Model.TotalPrice.ToString()</p>
-                            </td>
-                            <td class="cart_delete">
-                                <a class="cart_quantity_delete" asp-controller="Cart" asp-action="Clear">
-                                    <i class="fa fa-times" style="font-size: 18px;"></i> Clear
-                                </a>
+                            <td colspan="6" class="text-right">
+                                <strong>Total Price:</strong>
+                                <span class="cart_total_price ml-3">$@Model.TotalPrice.ToString()</span>
+                                <a class="btn btn-danger btn-sm ml-3" asp-controller="Cart" asp-action="Clear">Clear</a>
+                                @if (User.Identity?.IsAuthenticated ?? false)
+                                {
+                                    <a class="btn btn-primary btn-sm ml-3" asp-controller="Checkout" asp-action="Clear">Check Out</a>
+                                }
                             </td>
                         </tr>
+
                     }
                     else
                     {
                         <tr>
-                            <td colspan="6"><h4>Giỏ hàng của bạn trống.</h4></td>
+                            <td colspan="5"><h4>Giỏ hàng của bạn trống.</h4></td>
                         </tr>
                     }
                 </tbody>

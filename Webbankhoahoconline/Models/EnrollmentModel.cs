@@ -10,9 +10,9 @@ namespace Webbankhoahoconline.Models
         public int Id { get; set; }
 
         [Required]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         [ForeignKey("UserId")]
-        public UserModel User { get; set; }
+        public ApplicationUser User { get; set; }
 
         [Required]
         public int CourseId { get; set; }

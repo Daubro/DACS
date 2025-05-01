@@ -49,6 +49,8 @@ namespace Webbankhoahoconline.Controllers
                 cartItems.Quantity +=1;
             }
             HttpContext.Session.SetJson("Cart", cart);
+
+            TempData["Success"] = "Thêm vào giỏ hàng thành công";
             return Redirect(Request.Headers["Referer"].ToString());
         }
         public async Task<IActionResult> Remove(int Id)
@@ -60,11 +62,13 @@ namespace Webbankhoahoconline.Controllers
                 cart.Remove(cartItems);
             }
             HttpContext.Session.SetJson("Cart", cart);
+            TempData["Success"] = "Xóa khóa học khỏi giỏ hàng thành công";
             return Redirect(Request.Headers["Referer"].ToString());
         }
         public async Task<IActionResult> Clear()
         {
             HttpContext.Session.Remove("Cart");
+            TempData["Success"] = "Xóa giỏ hàng thành công";
             return Redirect(Request.Headers["Referer"].ToString());
         }
     }

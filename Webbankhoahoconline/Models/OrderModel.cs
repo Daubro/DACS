@@ -1,26 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using Webbankhoahoconline.Models;
 
-namespace Webbankhoahoconline.Models
+public class OrderModel
 {
-    public class OrderModel
-    {
-        [Key]
-        public int Id { get; set; }
+    [Key]
+    public int Id { get; set; }
 
-        [Required]
-        public int UserId { get; set; }
+    [Required]
+    public string UserId { get; set; } // sửa từ int → string
 
-        [ForeignKey("UserId")]
-        public UserModel User { get; set; }
+    [ForeignKey("UserId")]
+    public ApplicationUser User { get; set; }
 
-        public DateTime OrderDate { get; set; } = DateTime.Now;
+    public DateTime OrderDate { get; set; } = DateTime.Now;
 
-        [Required]
-        public decimal TotalAmount { get; set; }
+    [Required]
+    public decimal TotalAmount { get; set; }
 
-        public List<OrderDetailModel> OrderDetails { get; set; } = new List<OrderDetailModel>();
-    }
+    public List<OrderDetailModel> OrderDetails { get; set; } = new List<OrderDetailModel>();
 }
