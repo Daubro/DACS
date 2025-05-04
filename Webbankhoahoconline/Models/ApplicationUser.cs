@@ -6,6 +6,6 @@ namespace Webbankhoahoconline.Models
     {
         // Thêm thuộc tính tùy chỉnh nếu muốn
         public string FullName { get; set; }
-        public DateTime? DateOfBirth { get; set; }
+        public string RoleId { get; set; }
     }
 }

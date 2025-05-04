@@ -7,7 +7,7 @@ namespace Webbankhoahoconline.Models
     public class CourseModel
     {
         [Key]
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         [Required, MinLength(4, ErrorMessage = "Tên khóa học phải có ít nhất 4 ký tự")]
         public string Name { get; set; }

@@ -59,7 +59,7 @@
                                 <a class="btn btn-danger btn-sm ml-3" asp-controller="Cart" asp-action="Clear">Clear</a>
                                 @if (User.Identity?.IsAuthenticated ?? false)
                                 {
-                                    <a class="btn btn-primary btn-sm ml-3" asp-controller="Checkout" asp-action="Clear">Check Out</a>
+                                    <a class="btn btn-primary btn-sm ml-3" asp-controller="Checkout" asp-action="Checkout">Check Out</a>
                                 }
                             </td>
                         </tr>

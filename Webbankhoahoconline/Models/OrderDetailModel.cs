@@ -5,22 +5,13 @@ namespace Webbankhoahoconline.Models
 {
     public class OrderDetailModel
     {
-        [Key]
         public int Id { get; set; }
-
-        [Required]
-        public int OrderId { get; set; }
-
-        [ForeignKey("OrderId")]
-        public OrderModel Order { get; set; }
-
-        [Required]
-        public int CourseId { get; set; }
-
+        public string UserName { get; set; }
+        public string OrderCode { get; set; }
+        public long CourseId { get; set; }
+        public decimal Price { get; set; }
+        public int Quantity { get; set; }
         [ForeignKey("CourseId")]
         public CourseModel Course { get; set; }
-
-        [Required]
-        public decimal Price { get; set; }
     }
 }

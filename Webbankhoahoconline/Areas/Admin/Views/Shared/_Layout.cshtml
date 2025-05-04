@@ -72,11 +72,13 @@
 						<div class="mainmenu pull-left">
 							<ul class="nav navbar-nav collapse navbar-collapse">
 								<li><a asp-controller="Home" class="active">Home</a></li>
-								
-								
-								<li><a asp-controller="Course">Courses</a></li>
-								<li><a asp-controller="Category">Categories</a></li>
-								<li><a asp-controller="Instructor">Instructors</a></li>
+								<li><a asp-controller="Course" asp-action="Index">Manage Courses</a></li>
+								<li><a asp-controller="Category" asp-action="Index">Manage Categories</a></li>
+								<li><a asp-controller="Instructor" asp-action="Index">Manage Instructors</a></li>
+								<li><a asp-controller="Order" asp-action="Index">Manage Orders</a></li>
+								<li><a asp-controller="User" asp-action="Index">Manage Users</a></li>
+
+
 							</ul>
 						</div>
 					</div>
