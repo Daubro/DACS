@@ -20,7 +20,7 @@ namespace Webbankhoahoconline.Areas.Admin.Controllers
         }
         public async Task<IActionResult> ViewOrder(string ordercode)
         {
-            var DetailOrder = await _dataContext.OrderDetails.Include(od => od.Course).Where(od=>od.OrderCode==ordercode).ToListAsync();
+            var DetailOrder = await _dataContext.OrderDetails.Include(od => od.Course).Where(od => od.OrderCode == ordercode).ToListAsync();
             return View(DetailOrder);
         }
     }

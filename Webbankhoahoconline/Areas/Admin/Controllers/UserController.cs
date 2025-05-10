@@ -9,7 +9,7 @@ using Webbankhoahoconline.Repositories;
 namespace Webbankhoahoconline.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize]
+    [Authorize(Roles ="Admin")]
     [Route("Admin/User")]
     public class UserController : Controller
     {
