@@ -16,16 +16,25 @@ namespace Webbankhoahoconline.Areas.Admin.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly DataContext _dataContext;
-        public UserController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        public UserController(DataContext dataContext,UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
+            _dataContext = dataContext;
         }
         [HttpGet]
         [Route("Index")]
         public async Task<IActionResult> Index()
         {
-            return View(await _userManager.Users.OrderByDescending(co => co.Id).ToListAsync());
+            var usersWithRoles = await (from u in _userManager.Users
+                                        join ur in _dataContext.UserRoles on u.Id equals ur.UserId
+                                        join r in _dataContext.Roles on ur.RoleId equals r.Id
+                                        select new
+                                        {
+                                            User = u,
+                                            RoleName = r.Name
+                                        }).ToListAsync();
+            return View(usersWithRoles);
         }
         [HttpGet]
         [Route("Edit")]
@@ -106,6 +115,18 @@ namespace Webbankhoahoconline.Areas.Admin.Controllers
                 var createUserResult = await _userManager.CreateAsync(user, user.PasswordHash);
                 if (createUserResult.Succeeded)
                 {
+                    var createUser = await _userManager.FindByEmailAsync(user.Email);
+                    var userId = createUser.Id;
+                    var role = await _roleManager.FindByIdAsync(user.RoleId);
+
+                    var addToRoleResult = await _userManager.AddToRoleAsync(createUser, role.Name);
+                    if (!addToRoleResult.Succeeded)
+                    {
+                        foreach (var error in addToRoleResult.Errors)
+                        {
+                            ModelState.AddModelError(string.Empty, error.Description);
+                        }
+                    } 
                     return RedirectToAction("Index", "User");
                 }
                 else
