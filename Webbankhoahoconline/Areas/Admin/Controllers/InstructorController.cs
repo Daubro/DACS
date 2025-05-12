@@ -25,6 +25,7 @@ namespace Webbankhoahoconline.Areas.Admin.Controllers
             var instructor = await _dataContext.Instructors.FirstOrDefaultAsync(co => co.Id == Id);         
             return View(instructor);
         }
+        [Route("Create")]
         // GET: Create Instructor
         public IActionResult Create()
         {
@@ -32,6 +33,7 @@ namespace Webbankhoahoconline.Areas.Admin.Controllers
         }
 
         // POST: Create Instructor
+        [Route("Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(InstructorModel instructor, IFormFile AvatarImage)
