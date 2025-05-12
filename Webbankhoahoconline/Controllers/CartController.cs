@@ -35,7 +35,7 @@ namespace Webbankhoahoconline.Controllers
         {
             return View("~/Views/Checkout/Index.cshtml");
         }
-        public async Task<IActionResult> Add(int Id)
+        public async Task<IActionResult> Add(long Id)
         {
             CourseModel course = await _dataContext.Courses.FindAsync((long)Id);
             List<CartItemModel> cart = HttpContext.Session.GetJson<List<CartItemModel>>("Cart") ?? new List<CartItemModel>();

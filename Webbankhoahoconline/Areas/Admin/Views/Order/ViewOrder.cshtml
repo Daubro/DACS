@@ -1,31 +1,75 @@
 ﻿@model IEnumerable<OrderDetailModel>
 @{
     ViewData["Title"] = "Order Detail";
+	decimal totalPrice = 0;
+	decimal subTotalPrice = 0;
 }
-<h3>List Category</h3>
-<a asp-action="Create" asp-controller="Category">Add Category</a>
+<h3>Order Details</h3>
 <table class="table">
     <thead>
         <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Order Code</th>
-            <th scope="col">UserName</th>
-            <th scope="col">Order Date</th>
-            <th scope="col">Order Status</th>
+            <th>ID</th>
+            <th>Order Code</th>
+            <th>UserName</th>
+            <th>Course Name</th>
+            <th>Course Price</th>
+            <th>Quantity</th>
+            <th>SubTotal</th>
 
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
+			subTotalPrice = item.Price * item.Quantity;
+			totalPrice += subTotalPrice;
             <tr>
-                <th></th>
-                <th scope="row">@item.OrderCode</th>
+                <input type="hidden" asp-for="@item.OrderCode" class="getId" />
+                <th>@item.Id</th>
+                <th>@item.OrderCode</th>
                 <td>@item.UserName</td>
-                
-
-                
+				<td>@item.Course.Name</td>
+				<td>@item.Price</td>
+				<td>@item.Quantity</td>
+				<td>@subTotalPrice.ToString("C")</td>  
             </tr>
         }
+        <tr>
+            <th colspan="5"> TotalPrice: </th>
+			<td colspan="2">@totalPrice.ToString("C")</td>
+            <td>
+                <select class="form-control select-update-order" >
+                    <option value="1">Đơn hàng mới</option>
+                         <option value="0">Đã xử lý</option>
+            </select>
+            </td>
+        </tr>
     </tbody>
 </table>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('.select-update-order').change(function () {
+                var status = $(this).val();
+                var ordercode = $(this).data('ordercode');
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("UpdateOrder", "Order")',
+                    data: { status: status, ordercode: ordercode },
+                    success: function (result) {
+                        if (result.success) {
+                            Swal.fire("Cập nhật đơn hàng thành công");
+                        } else {
+                            Swal.fire("Cập nhật đơn hàng thất bại");
+                        }
+                    },
+                    error: function () {
+                        Swal.fire("Đã xảy ra lỗi khi cập nhật đơn hàng.");
+                    }
+                });
+            });
+        });
+    </script>
+}
