@@ -37,7 +37,7 @@ namespace Webbankhoahoconline.Controllers
         }
         public async Task<IActionResult> Add(int Id)
         {
-            CourseModel course = await _dataContext.Courses.FindAsync(Id);          
+            CourseModel course = await _dataContext.Courses.FindAsync((long)Id);
             List<CartItemModel> cart = HttpContext.Session.GetJson<List<CartItemModel>>("Cart") ?? new List<CartItemModel>();
             CartItemModel cartItems = cart.Where(c=>c.CourseId==Id).FirstOrDefault();
             if (cartItems == null)

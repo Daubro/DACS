@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Webbankhoahoconline.Areas.Admin.Repository;
 using Webbankhoahoconline.Models;
 using Webbankhoahoconline.Models.ViewModels;
 
@@ -9,10 +10,12 @@ namespace Webbankhoahoconline.Controllers
     {
         private UserManager<ApplicationUser> _userManager;
         private SignInManager<ApplicationUser> _signInManager;
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        private readonly IEmailSender _emailSender;
+        public AccountController(IEmailSender emailSender, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _emailSender = emailSender;
         }
         public IActionResult Login(string returnUrl)
         {
@@ -26,6 +29,12 @@ namespace Webbankhoahoconline.Controllers
                 Microsoft.AspNetCore.Identity.SignInResult result = await _signInManager.PasswordSignInAsync(loginVM.UserName, loginVM.Password, false, false);
                 if (result.Succeeded)
                 {
+                    TempData["Success"] = "Đăng nhập thành công";
+                    var receiver = "dxk1708@gmail.com";
+                    var subject = "Đăng nhập trên thiết bị thành công";
+                    var message = "Đăng nhập thành công, trải nghiệm dịch vụ của chúng tôi nhé.";
+
+                    await _emailSender.SendEmailAsync(receiver, subject, message);
                     return Redirect(loginVM.ReturnUrl ?? "/");
                 }
                 ModelState.AddModelError("", "Tên đăng nhập hoặc mật khẩu không đúng");

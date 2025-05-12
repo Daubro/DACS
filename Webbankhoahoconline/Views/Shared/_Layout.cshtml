@@ -89,12 +89,13 @@
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
 
-								<li><a href="cart.html"><i class="fa fa-shopping-cart"></i> Giỏ khóa học</a></li>
+								<li><a asp-controller="Cart" asp-action="Index"><i class="fa fa-shopping-cart"></i> Giỏ khóa học</a></li>
 								@if (User.Identity?.IsAuthenticated ?? false)
 								{
-									<li><a href="#"><i class="fa fa-user"></i> Tài khoản</a></li>
+									<li><a ><i class="fa fa-user"></i> Tài khoản</a></li>
 									<li><a href="#"><i class="fa fa-star"></i> Khóa học yêu thích</a></li>
-									<li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Thanh toán</a></li>
+									<li><a asp-controller="Cart" asp-action="Checkout"><i class="fa fa-crosshairs"></i> Thanh toán</a></li>
+									<li><a asp-controller="Admin" asp-action="Index"><i class="fa fa-lock"></i> Admin</a> </li>
 									<li><a asp-controller="Account" asp-action="Logout"><i class="fa fa-lock"></i>Xin Chào, @User.Identity.Name, Đăng xuất</a></li>
 									
 								}
@@ -139,7 +140,7 @@
 									<a asp-controller="Cart">Giỏ hàng<i class="fa fa-angle-down"></i></a>
 									<ul role="menu" class="sub-menu">
 										<li><a asp-controller="Cart" asp-action="Checkout">Thanh toán</a></li>
-										<li><a asp-controller="Cart">Giỏ hàng</a></li>
+										<li><a asp-controller="Cart" asp-action="Index">Giỏ hàng</a></li>
 									</ul>
 								</li>
 								

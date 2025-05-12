@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Webbankhoahoconline.Areas.Admin.Repository;
 using Webbankhoahoconline.Models;
 using Webbankhoahoconline.Repositories;
 
@@ -7,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 //Connection db
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectedDb")));
+builder.Services.AddTransient<IEmailSender, EmailSender>();
 //Identity
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<DataContext>()

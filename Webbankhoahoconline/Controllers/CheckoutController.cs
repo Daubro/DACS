@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
+using Webbankhoahoconline.Areas.Admin.Repository;
 using Webbankhoahoconline.Models;
 using Webbankhoahoconline.Repositories;
 
@@ -8,10 +9,12 @@ namespace Webbankhoahoconline.Controllers
     public class CheckoutController : Controller
     {
         private readonly DataContext _dataContext;
+        private readonly IEmailSender _emailSender;
 
-        public CheckoutController( DataContext context)
+        public CheckoutController(IEmailSender emailSender, DataContext context)
         {
             _dataContext = context;
+            _emailSender = emailSender;
         }
         public async Task<IActionResult> Checkout()
         {
@@ -43,7 +46,14 @@ namespace Webbankhoahoconline.Controllers
                     _dataContext.SaveChanges();
                 }
                 HttpContext.Session.Remove("Cart");
-                TempData["Success"] = "Đặt hàng thành công! Vui lòng đợi kiểm tra đơn hàng";
+                //Send email
+                var receiver = userEmail;
+                var subject = "Đặt hàng thành công";
+                var message = "Đặt hàng thành công, trải nghiệm dịch vụ của chúng tôi nhé.";
+
+                await _emailSender.SendEmailAsync(receiver, subject, message);
+
+                TempData["Success"] = "Đơn hàng đã được tạo ! Vui lòng đợi kiểm tra đơn hàng";
                 return RedirectToAction("Index", "Cart");
             }
             return View();
