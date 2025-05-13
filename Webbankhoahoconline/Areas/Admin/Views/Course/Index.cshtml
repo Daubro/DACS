@@ -4,7 +4,7 @@
 }
 <h3>List Courses</h3>
 <a asp-action="Create" asp-controller="Course">Add Course</a>
-<table class="table">
+<table class="table" id="myTable">
     <thead>
         <tr>
             <th scope="col">ID</th>
@@ -15,7 +15,7 @@
             <th scope="col">Course Slug</th>
             <th scope="col">Course Category</th>
             <th scope="col">Course Instructor</th>
-
+            <th scope="col">Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -39,3 +39,4 @@
         }        
     </tbody>
 </table>
+

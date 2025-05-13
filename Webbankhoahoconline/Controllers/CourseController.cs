@@ -21,7 +21,14 @@ namespace Webbankhoahoconline.Controllers
             var courses = await _dataContext.Courses.ToListAsync();
             return View(courses);
         }
-
+        public async Task<IActionResult> Search(string searchTerm)
+        {
+            var courses = await _dataContext.Courses
+                .Where(c => c.Name.Contains(searchTerm) || c.Description.Contains(searchTerm))
+                .ToListAsync();
+            ViewBag.Keyword = searchTerm;
+            return View(courses);
+        }
         // Xem chi tiết khóa học
         public async Task<IActionResult> Details(int id)
         {
