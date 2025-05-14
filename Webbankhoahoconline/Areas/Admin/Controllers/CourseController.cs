@@ -9,7 +9,7 @@ using Webbankhoahoconline.Repositories;
 namespace Webbankhoahoconline.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize]
+    [Authorize(Roles = "Admin,Publisher,Author")]
     public class CourseController : Controller
     {
         private readonly DataContext _dataContext;
@@ -33,7 +33,6 @@ namespace Webbankhoahoconline.Areas.Admin.Controllers
             return View(coursesById);
         }
         // Hiển thị form thêm khóa học (Chỉ Admin mới có quyền)
-        [HttpGet]
         public IActionResult Create()
         {
             ViewBag.Categories = new SelectList(_dataContext.Categories, "Id","Name");
@@ -94,7 +93,7 @@ namespace Webbankhoahoconline.Areas.Admin.Controllers
 
             return View(course);
         }
-        public async Task<IActionResult> Edit(int Id)
+        public async Task<IActionResult> Edit(long Id)
         {
             CourseModel course = await _dataContext.Courses.FirstAsync(co => co.Id == Id);
             ViewBag.Categories = new SelectList(_dataContext.Categories, "Id", "Name", course.CategoryId);
@@ -169,18 +168,18 @@ namespace Webbankhoahoconline.Areas.Admin.Controllers
 
             return View(course);
         }
-        public async Task<IActionResult> Delete(int Id)
+        public async Task<IActionResult> Delete(long Id)
         {
             CourseModel course = await _dataContext.Courses.FirstAsync(co => co.Id == Id);
-
-            if(course == null)
+            if (!string.Equals(course.ImageUrl, ""))
             {
-                 
-                    return NotFound(); 
+                string uploadsDir = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+                string oldfilePathImage = Path.Combine(uploadsDir, course.ImageUrl);
+                if (System.IO.File.Exists(oldfilePathImage))
+                {
+                    System.IO.File.Delete(oldfilePathImage);
+                }
             }
-            string uploadsDir = Path.Combine(_webHostEnvironment.WebRootPath, "images");
-             
-           
             _dataContext.Courses.Remove(course);
             await _dataContext.SaveChangesAsync();
             TempData["success"] = "Đã xóa Khóa học";

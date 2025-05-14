@@ -1,301 +1,129 @@
-﻿<div class="row">
-	<div class="col-sm-3">
-		@Html.Partial("_SidebarPartial")
-		</div>
-	<div class="col-sm-9 padding-right">
-		<div class="course-details">
-			<!--course-details-->
-			<div class="col-sm-5">
-				<div class="view-course">
-					<img src="~/images/@Model.ImageUrl" alt="" />
-					
-				</div>
-				<div id="similar-course" class="carousel slide" data-ride="carousel">
+﻿@model CourseDetailsViewModel
+@{
+    ViewData["Title"] = "Course Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-sm-3">
+        @Html.Partial("_SidebarPartial")
+    </div>
+    <div class="col-sm-9 padding-right">
+        <div class="course-details">
+            <!--course-details-->
+            <div class="col-sm-5">
+                <div class="view-course">
+                    <img src="~/images/@Model.CourseDetails.ImageUrl" alt="@Model.CourseDetails.Name" style="width: 100%; height: 350px; object-fit: cover;" />
+                </div>
 
-					<!-- Wrapper for slides -->
-					<div class="carousel-inner">
-						<div class="item ">
-							<a href=""><img src="images/course-details/similar1.jpg" alt=""></a>
-							<a href=""><img src="images/course-details/similar2.jpg" alt=""></a>
-							<a href=""><img src="images/course-details/similar3.jpg" alt=""></a>
-						</div>
-						<div class="item">
-							<a href=""><img src="images/course-details/similar1.jpg" alt=""></a>
-							<a href=""><img src="images/course-details/similar2.jpg" alt=""></a>
-							<a href=""><img src="images/course-details/similar3.jpg" alt=""></a>
-						</div>
-						<div class="item">
-							<a href=""><img src="images/course-details/similar1.jpg" alt=""></a>
-							<a href=""><img src="images/course-details/similar2.jpg" alt=""></a>
-							<a href=""><img src="images/course-details/similar3.jpg" alt=""></a>
-						</div>
+                <div id="similar-course" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="item active">
+                            
+                        </div>
+                        <!-- Các slide khác -->
+                    </div>
+                    <a class="left item-control" href="#similar-course" data-slide="prev">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a class="right item-control" href="#similar-course" data-slide="next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-sm-7">
+                <div class="course-information">
+                    <h2>@Model.CourseDetails.Name</h2>
+                    <span>
+                        <span>@Model.CourseDetails.Price.ToString("#,##0,VNĐ")</span>
+                        <button type="button" class="btn btn-default cart">
+                            <i class="fa fa-shopping-cart"></i>
+                            Thêm vào giỏ hàng
+                        </button>
+                    </span>
+                    <p><b>Tình trạng:</b> Còn khóa học</p>
+                    <p><b>Danh Mục:</b> @Model.CourseDetails.Category.Name</p>
+                    <p><b>Giảng viên:</b> @Model.CourseDetails.Instructor.Name</p>
+                    <a href=""><img class="#"  /></a>
+                </div>
+            </div>
+        </div>
 
-					</div>
+        <div class="category-tab shop-details-tab">
+            <div class="col-sm-12">
+                <ul class="nav nav-tabs">
+                    <li><a href="#details" data-toggle="tab">Chi tiết</a></li>
+                    <li><a href="#companyprofile" data-toggle="tab">Hồ sơ công ty</a></li>
+                    <li><a href="#tag" data-toggle="tab">Tag</a></li>
+                    <li class="active"><a href="#reviews" data-toggle="tab">Đánh giá (5)</a></li>
+                </ul>
+            </div>
+            <div class="tab-content">
+                <div class="tab-pane fade active in" id="details">
+                    @Html.Raw(Model.CourseDetails.Description)
+                </div>
 
-					<!-- Controls -->
-					<a class="left item-control" href="#similar-course" data-slide="prev">
-						<i class="fa fa-angle-left"></i>
-					</a>
-					<a class="right item-control" href="#similar-course" data-slide="next">
-						<i class="fa fa-angle-right"></i>
-					</a>
-				</div>
+                <div class="tab-pane fade" id="reviews">
+                    <div class="col-sm-12">
+                        <ul>
+                            <li><a href=""><i class="fa fa-user"></i> EUGEN</a></li>
+                            <li><a href=""><i class="fa fa-clock-o"></i> 12:41 PM</a></li>
+                            <li><a href=""><i class="fa fa-calendar-o"></i> 31 DEC 2014</a></li>
+                        </ul>
+                        <p><b>Viết đánh giá của bạn</b></p>
 
-			</div>
-			<div class="col-sm-7">
-				<div class="course-information">
-					<!--/course-information-->
-					<h2>@Model.Name</h2>
-					<span>
-						<span>US $@Model.Price</span>
-						<button type="button" class="btn btn-fefault cart">
-							<i class="fa fa-shopping-cart"></i>
-							Add to cart
-						</button>
-					</span>
-					<p><b>Tình trạng:</b> Còn khóa học</p>
-					<p><b>Danh Mục:</b> @Model.Category.Name</p>
-					<p><b>Giảng viên:</b> @Model.Instructor.Name</p>
-					<a href=""><img src="images/course-details/share.png" class="share img-responsive" alt="" /></a>
-				</div><!--/course-information-->
-			</div>
-		</div><!--/course-details-->
+                        <form autocomplete="off" asp-action="CommentCourse" asp-controller="Course" method="POST">
+                            <span>
+                                <input type="hidden" asp-for="@Model.CourseDetails.Id" name="CourseId" />
+                                <input name="Star" type="hidden" value="4" />
+                                <input asp-for="@Model.Name" type="text" placeholder="Tên của bạn" />
+                                <span asp-validation-for="@Model.Name" class="text-danger"></span>
+                                <input asp-for="@Model.Email" type="email" placeholder="Email của bạn" />
+                                <span asp-validation-for="@Model.Email" class="text-danger"></span>
+                            </span>
+                            <textarea asp-for="@Model.Comment"></textarea>
+                            <span asp-validation-for="@Model.Comment" class="text-danger"></span>
+                            <b>Đánh giá: </b> <img src="images/course-details/rating.png" alt="Rating" />
+                            <button type="submit" class="btn btn-default pull-right">Gửi</button>
+                        </form>
+                    </div>
+                </div>
 
-		<div class="category-tab shop-details-tab">
-			<!--category-tab-->
-			<div class="col-sm-12">
-				<ul class="nav nav-tabs">
-					<li class="active"><a href="#details" data-toggle="tab">Details</a></li>
-					<li><a href="#companyprofile" data-toggle="tab">Company Profile</a></li>
-					<li><a href="#tag" data-toggle="tab">Tag</a></li>
-					<li><a href="#reviews" data-toggle="tab">Reviews (5)</a></li>
-				</ul>
-			</div>
-			<div class="tab-content">
-				<div class="tab-pane fade active in" id="details">
-							@Model.Description
-				</div>
+            </div>
+        </div>
 
-				<div class="tab-pane fade" id="companyprofile">
-					<div class="col-sm-3">
-						<div class="course-image-wrapper">
-							<div class="single-courses">
-								<div class="courseinfo text-center">
-									<img src="images/home/gallery1.jpg" alt="" />
-									<h2>$56</h2>
-									<p>Easy Polo Black Edition</p>
-									<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-3">
-						<div class="course-image-wrapper">
-							<div class="single-courses">
-								<div class="courseinfo text-center">
-									<img src="images/home/gallery3.jpg" alt="" />
-									<h2>$56</h2>
-									<p>Easy Polo Black Edition</p>
-									<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-3">
-						<div class="course-image-wrapper">
-							<div class="single-courses">
-								<div class="courseinfo text-center">
-									<img src="images/home/gallery2.jpg" alt="" />
-									<h2>$56</h2>
-									<p>Easy Polo Black Edition</p>
-									<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-3">
-						<div class="course-image-wrapper">
-							<div class="single-courses">
-								<div class="courseinfo text-center">
-									<img src="images/home/gallery4.jpg" alt="" />
-									<h2>$56</h2>
-									<p>Easy Polo Black Edition</p>
-									<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+        <div class="recommended_items">
+            <h2 class="title text-center">Khóa học liên quan</h2>
 
-				<div class="tab-pane fade" id="tag">
-					<div class="col-sm-3">
-						<div class="course-image-wrapper">
-							<div class="single-courses">
-								<div class="courseinfo text-center">
-									<img src="images/home/gallery1.jpg" alt="" />
-									<h2>$56</h2>
-									<p>Easy Polo Black Edition</p>
-									<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-3">
-						<div class="course-image-wrapper">
-							<div class="single-courses">
-								<div class="courseinfo text-center">
-									<img src="images/home/gallery2.jpg" alt="" />
-									<h2>$56</h2>
-									<p>Easy Polo Black Edition</p>
-									<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-3">
-						<div class="course-image-wrapper">
-							<div class="single-courses">
-								<div class="courseinfo text-center">
-									<img src="images/home/gallery3.jpg" alt="" />
-									<h2>$56</h2>
-									<p>Easy Polo Black Edition</p>
-									<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-3">
-						<div class="course-image-wrapper">
-							<div class="single-courses">
-								<div class="courseinfo text-center">
-									<img src="images/home/gallery4.jpg" alt="" />
-									<h2>$56</h2>
-									<p>Easy Polo Black Edition</p>
-									<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="tab-pane fade" id="reviews">
-					<div class="col-sm-12">
-						<ul>
-							<li><a href=""><i class="fa fa-user"></i>EUGEN</a></li>
-							<li><a href=""><i class="fa fa-clock-o"></i>12:41 PM</a></li>
-							<li><a href=""><i class="fa fa-calendar-o"></i>31 DEC 2014</a></li>
-						</ul>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-						<p><b>Write Your Review</b></p>
-
-						<form action="#">
-							<span>
-								<input type="text" placeholder="Your Name" />
-								<input type="email" placeholder="Email Address" />
-							</span>
-							<textarea name=""></textarea>
-							<b>Rating: </b> <img src="images/course-details/rating.png" alt="" />
-							<button type="button" class="btn btn-default pull-right">
-								Submit
-							</button>
-						</form>
-					</div>
-				</div>
-
-			</div>
-		</div><!--/category-tab-->
-
-		<div class="recommended_items">
-			<!--recommended_items-->
-			<h2 class="title text-center">recommended items</h2>
-
-			<div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
-				<div class="carousel-inner">
-					<div class="item active">
-						<div class="col-sm-4">
-							<div class="course-image-wrapper">
-								<div class="single-courses">
-									<div class="courseinfo text-center">
-										<img src="images/home/recommend1.jpg" alt="" />
-										<h2>$56</h2>
-										<p>Easy Polo Black Edition</p>
-										<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-4">
-							<div class="course-image-wrapper">
-								<div class="single-courses">
-									<div class="courseinfo text-center">
-										<img src="images/home/recommend2.jpg" alt="" />
-										<h2>$56</h2>
-										<p>Easy Polo Black Edition</p>
-										<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-4">
-							<div class="course-image-wrapper">
-								<div class="single-courses">
-									<div class="courseinfo text-center">
-										<img src="images/home/recommend3.jpg" alt="" />
-										<h2>$56</h2>
-										<p>Easy Polo Black Edition</p>
-										<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="item">
-						<div class="col-sm-4">
-							<div class="course-image-wrapper">
-								<div class="single-courses">
-									<div class="courseinfo text-center">
-										<img src="images/home/recommend1.jpg" alt="" />
-										<h2>$56</h2>
-										<p>Easy Polo Black Edition</p>
-										<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-4">
-							<div class="course-image-wrapper">
-								<div class="single-courses">
-									<div class="courseinfo text-center">
-										<img src="images/home/recommend2.jpg" alt="" />
-										<h2>$56</h2>
-										<p>Easy Polo Black Edition</p>
-										<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-4">
-							<div class="course-image-wrapper">
-								<div class="single-courses">
-									<div class="courseinfo text-center">
-										<img src="images/home/recommend3.jpg" alt="" />
-										<h2>$56</h2>
-										<p>Easy Polo Black Edition</p>
-										<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
-					<i class="fa fa-angle-left"></i>
-				</a>
-				<a class="right recommended-item-control" href="#recommended-item-carousel" data-slide="next">
-					<i class="fa fa-angle-right"></i>
-				</a>
-			</div>
-		</div><!--/recommended_items-->
-
-	</div>
+            <div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="item active">
+                        @foreach (var relatedCourse in ViewBag.RelatedCourses as IEnumerable<CourseModel>)
+                        {
+                            <div class="col-sm-4">
+                                <div class="course-image-wrapper">
+                                    <div class="single-courses">
+                                        <div class="courseinfo text-center">
+                                            <a asp-action="Details" asp-controller="Course" asp-route-Id="@relatedCourse.Id">
+                                                <img src="~/images/@relatedCourse.ImageUrl" alt="@relatedCourse.Name" style="width: 100%; height: 200px; object-fit: cover;" />
+                                                <h2>@relatedCourse.Price.ToString("#,##0,VNĐ")</h2>
+                                                <p>@relatedCourse.Name</p>
+                                                <p>Danh mục: @relatedCourse.Category.Name</p>
+                                                <p>Giảng viên: @relatedCourse.Instructor.Name</p>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                <a class="right recommended-item-control" href="#recommended-item-carousel" data-slide="next">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
 </div>

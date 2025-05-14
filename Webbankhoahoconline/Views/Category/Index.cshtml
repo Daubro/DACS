@@ -18,7 +18,7 @@
                     <div class="single-products">
                         <div class="productinfo text-center">
                                 <img src="~/images/@item.ImageUrl" alt="@item.Name" style="width: 100%; height: 200px; object-fit: cover;" />
-                            <h2>$@item.Price</h2>
+                            <h2>$@item.Price.ToString("#,##0,VNĐ")</h2>
                             <p>@item.Name</p>
                             <p>Danh mục : @item.Category.Name</p>
                             <p>Tên giảng viên : @item.Instructor.Name</p>

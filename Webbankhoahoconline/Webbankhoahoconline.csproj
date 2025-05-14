@@ -29,6 +29,7 @@
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Migrations\" />
     <Folder Include="wwwroot\backend\images\" />
+    <Folder Include="wwwroot\images\sliders\" />
     <Folder Include="wwwroot\media\courses\" />
     <Folder Include="wwwroot\avatarurl\" />
   </ItemGroup>

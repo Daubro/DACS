@@ -7,7 +7,7 @@ using Webbankhoahoconline.Repositories;
 namespace Webbankhoahoconline.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Publisher,Author")]
+    [Authorize(Roles = "Admin,Publisher,Author")]
 
     public class InstructorController : Controller
     {

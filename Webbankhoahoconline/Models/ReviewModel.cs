@@ -8,23 +8,17 @@ namespace Webbankhoahoconline.Models
     {
         [Key]
         public int Id { get; set; }
-
         [Required]
-        public int UserId { get; set; }
-        [ForeignKey("UserId")]
-        public ApplicationUser User { get; set; }
-
-        [Required]
-        public int CourseId { get; set; }
+        public long CourseId { get; set; }
+        [Required(ErrorMessage = "Yêu cầu nhập đánh giá")]
+        public string Comment { get; set; }
+        [Required(ErrorMessage = "Yêu cầu nhập tên người đánh giá")]
+        public string Name { get; set; }
+        [Required(ErrorMessage = "Yêu cầu nhập email người đánh giá")]
+        [EmailAddress(ErrorMessage = "Email không hợp lệ")]
+        public string Email { get; set; }
+        public string Star { get; set; } 
         [ForeignKey("CourseId")]
         public CourseModel Course { get; set; }
-
-        [Required, Range(1, 5, ErrorMessage = "Điểm đánh giá phải từ 1 đến 5")]
-        public int Rating { get; set; }
-
-        [Required, MinLength(5, ErrorMessage = "Nội dung đánh giá ít nhất 5 ký tự")]
-        public string Comment { get; set; }
-
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }

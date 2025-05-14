@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Webbankhoahoconline.Repositories;
 
@@ -11,9 +12,11 @@ using Webbankhoahoconline.Repositories;
 namespace Webbankhoahoconline.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20250514055030_reviewMigration")]
+    partial class reviewMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -465,37 +468,9 @@ namespace Webbankhoahoconline.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CourseId")
-                        .IsUnique();
+                    b.HasIndex("CourseId");
 
                     b.ToTable("Reviews");
-                });
-
-            modelBuilder.Entity("Webbankhoahoconline.Models.SliderModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("Status")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Sliders");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -593,8 +568,8 @@ namespace Webbankhoahoconline.Migrations
             modelBuilder.Entity("Webbankhoahoconline.Models.ReviewModel", b =>
                 {
                     b.HasOne("Webbankhoahoconline.Models.CourseModel", "Course")
-                        .WithOne("Reviews")
-                        .HasForeignKey("Webbankhoahoconline.Models.ReviewModel", "CourseId")
+                        .WithMany()
+                        .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -614,11 +589,6 @@ namespace Webbankhoahoconline.Migrations
             modelBuilder.Entity("Webbankhoahoconline.Models.CategoryModel", b =>
                 {
                     b.Navigation("Courses");
-                });
-
-            modelBuilder.Entity("Webbankhoahoconline.Models.CourseModel", b =>
-                {
-                    b.Navigation("Reviews");
                 });
 
             modelBuilder.Entity("Webbankhoahoconline.Models.InstructorModel", b =>

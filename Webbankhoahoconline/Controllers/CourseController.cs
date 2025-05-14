@@ -3,6 +3,7 @@ using Webbankhoahoconline.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Webbankhoahoconline.Repositories;
+using Webbankhoahoconline.Models.ViewModels;
 
 namespace Webbankhoahoconline.Controllers
 {
@@ -30,21 +31,28 @@ namespace Webbankhoahoconline.Controllers
             return View(courses);
         }
         // Xem chi tiết khóa học
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Details(long id)
         {
             if (id == 0) return RedirectToAction("Index");
 
-            var courseById = await _dataContext.Courses
-                .FirstOrDefaultAsync(co => co.Id == id);
+            var courseById = await _dataContext.Courses.Include(co => co.Reviews).FirstOrDefaultAsync(co => co.Id == id);
+            //related
 
-            if (courseById == null)
-                return NotFound();
+            var relatedCourses = await _dataContext.Courses
+                .Where(co => co.CategoryId == courseById.CategoryId && co.Id != courseById.Id)
+                .Take(4)
+                .ToListAsync();
 
-            return View(courseById);
+            ViewBag.RelatedCourses = relatedCourses;
+
+            var viewModel = new CourseDetailsViewModel
+            {
+                CourseDetails = courseById,
+            };
+            return View(viewModel);
         }
 
         // Hiển thị form thêm khóa học (Chỉ Admin mới có quyền)
-        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -53,7 +61,6 @@ namespace Webbankhoahoconline.Controllers
         // Xử lý thêm khóa học
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(CourseModel course)
         {
             if (ModelState.IsValid)
@@ -66,7 +73,6 @@ namespace Webbankhoahoconline.Controllers
         }
 
         // Hiển thị form chỉnh sửa khóa học
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id)
         {
             var course = await _dataContext.Courses.FindAsync(id);
@@ -80,7 +86,6 @@ namespace Webbankhoahoconline.Controllers
         // Xử lý chỉnh sửa khóa học
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, CourseModel course)
         {
             if (id != course.Id)
@@ -96,9 +101,41 @@ namespace Webbankhoahoconline.Controllers
             }
             return View(course);
         }
+        public async Task<IActionResult> CommentCourse(ReviewModel review)
+        {
+            if(ModelState.IsValid)
+            {
+                var reviewEntity = new ReviewModel
+                {
+                    CourseId = review.CourseId,
+                    Comment = review.Comment,
+                    Name = review.Name,
+                    Email = review.Email,
+                    Star = review.Star
+                };
+                _dataContext.Reviews.Add(review);
+                await _dataContext.SaveChangesAsync();
+                TempData["Success"] = "Đánh giá của bạn đã được thêm thành công!";
+                return Redirect(Request.Headers["Referer"]);
+            }
+            else
+            {
+                TempData["Error"] = "Có lỗi xảy ra khi gửi đánh giá";
+                List<string> errors = new List<string>();
+                foreach (var valua in ModelState.Values)
+                {
+                    foreach (var error in valua.Errors)
+                    {
+                        errors.Add(error.ErrorMessage);
+                    }
+                }
+                string errorMessage = string.Join("\n", errors);
+                return RedirectToAction("Details", new { id = review.CourseId });
+            }
+            return RedirectToAction("Details", "Course");
+        }
 
         // Xóa khóa học
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var course = await _dataContext.Courses.FindAsync(id);

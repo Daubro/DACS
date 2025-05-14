@@ -27,6 +27,8 @@ namespace Webbankhoahoconline.Models
 
         public int Status { get; set; } 
 
+        public ReviewModel Reviews { get; set; } 
+
         // Liên kết với danh mục khóa học
         public int CategoryId { get; set; }
         [ForeignKey("CategoryId")]
