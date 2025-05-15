@@ -5,7 +5,7 @@
 	decimal subTotalPrice = 0;
 }
 <h3>Order Details</h3>
-<table class="table">
+<table class="table" id="detail_order">
     <thead>
         <tr>
             <th>ID</th>
@@ -25,8 +25,8 @@
 			totalPrice += subTotalPrice;
             <tr>
                 <input type="hidden" asp-for="@item.OrderCode" class="getId" />
-                <th>@item.Id</th>
-                <th>@item.OrderCode</th>
+                <td>@item.Id</td>
+                <td>@item.OrderCode</td>
                 <td>@item.UserName</td>
 				<td>@item.Course.Name</td>
 				<td>@item.Price</td>
@@ -37,8 +37,13 @@
         <tr>
             <th colspan="5"> TotalPrice: </th>
 			<td colspan="2">@totalPrice.ToString("C")</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
             <td>
-                <select class="form-control select-update-order" >
+                <select class="form-control select-update-order" data-ordercode="@Model.FirstOrDefault()?.OrderCode">
+                    
                     <option value="1">Đơn hàng mới</option>
                          <option value="0">Đã xử lý</option>
             </select>
@@ -48,6 +53,15 @@
 </table>
 
 @section Scripts {
+    <script>
+            new DataTable('#detail_order', {
+            layout: {
+                topStart: {
+                    buttons: [ 'pdf', 'print']
+                }
+            }
+        });
+    </script>
     <script>
         $(document).ready(function () {
             $('.select-update-order').change(function () {

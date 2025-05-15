@@ -21,6 +21,8 @@ namespace Webbankhoahoconline.Controllers
         public IActionResult Index()
         {
             var courses = _dataContext.Courses.Include("Category").Include("Instructor").ToList();
+            var sliders = _dataContext.Sliders.Where(s => s.Status == 1).ToList();
+            ViewBag.Sliders = sliders;
             return View(courses);
         }
 
