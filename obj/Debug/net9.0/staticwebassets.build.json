@@ -1,0 +1,125 @@
+{
+  "Version": 1,
+  "Hash": "wXToOMp3rVCM67NNAC16bDmJw1YJ6he8yMXLDufwlv8=",
+  "Source": "VideoCDNServer",
+  "BasePath": "_content/VideoCDNServer",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "VideoCDNServer\\wwwroot",
+      "Source": "VideoCDNServer",
+      "ContentRoot": "C:\\Users\\khanh\\VideoCDNServer\\wwwroot\\",
+      "BasePath": "_content/VideoCDNServer",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\khanh\\VideoCDNServer\\wwwroot\\videos\\file.mp4",
+      "SourceId": "VideoCDNServer",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\khanh\\VideoCDNServer\\wwwroot\\",
+      "BasePath": "_content/VideoCDNServer",
+      "RelativePath": "videos/file#[.{fingerprint}]?.mp4",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "lzr9ctcg4z",
+      "Integrity": "8dW3TGUPV1k5lv8eAgm+ZKo3J8QFqDSPxQm8QxWBDj0=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\videos\\file.mp4"
+    }
+  ],
+  "Endpoints": [
+    {
+      "Route": "videos/file.lzr9ctcg4z.mp4",
+      "AssetFile": "C:\\Users\\khanh\\VideoCDNServer\\wwwroot\\videos\\file.mp4",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "5699204"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "video/mp4"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"8dW3TGUPV1k5lv8eAgm+ZKo3J8QFqDSPxQm8QxWBDj0=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 15 May 2025 16:18:50 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "lzr9ctcg4z"
+        },
+        {
+          "Name": "label",
+          "Value": "videos/file.mp4"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-8dW3TGUPV1k5lv8eAgm+ZKo3J8QFqDSPxQm8QxWBDj0="
+        }
+      ]
+    },
+    {
+      "Route": "videos/file.mp4",
+      "AssetFile": "C:\\Users\\khanh\\VideoCDNServer\\wwwroot\\videos\\file.mp4",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "5699204"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "video/mp4"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"8dW3TGUPV1k5lv8eAgm+ZKo3J8QFqDSPxQm8QxWBDj0=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 15 May 2025 16:18:50 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-8dW3TGUPV1k5lv8eAgm+ZKo3J8QFqDSPxQm8QxWBDj0="
+        }
+      ]
+    }
+  ]
+}

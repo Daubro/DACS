@@ -1,0 +1,29 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\khanh\\VideoCDNServer\\wwwroot\\videos\\file.mp4",
+      "PackagePath": "staticwebassets\\videos\\file.mp4"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.VideoCDNServer.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.VideoCDNServer.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.build.VideoCDNServer.props",
+      "PackagePath": "build\\VideoCDNServer.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.buildMultiTargeting.VideoCDNServer.props",
+      "PackagePath": "buildMultiTargeting\\VideoCDNServer.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.buildTransitive.VideoCDNServer.props",
+      "PackagePath": "buildTransitive\\VideoCDNServer.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
