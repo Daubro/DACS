@@ -18,5 +18,7 @@ namespace Webbankhoahoconline.Repositories
         public DbSet<InstructorModel> Instructors { get; set; }
         public DbSet<ReviewModel> Reviews { get; set; }
         public DbSet<SliderModel> Sliders { get; set; }
+        public DbSet<VideoModel> Videos { get; set; }
+
     }
 }

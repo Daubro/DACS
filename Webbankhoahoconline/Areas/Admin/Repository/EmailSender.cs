@@ -11,11 +11,11 @@ namespace Webbankhoahoconline.Areas.Admin.Repository
             {
                 EnableSsl = true, //bật bảo mật
                 UseDefaultCredentials = false,
-                Credentials = new NetworkCredential("dxk1708@gmail.com", "bicchfeiogstmkcp")
+                Credentials = new NetworkCredential("khanh1652554@gmail.com", "lmdvvqwybrubrtrd")
             };
 
             return client.SendMailAsync(
-                new MailMessage(from: "dxk1708@gmail.com",
+                new MailMessage(from: "khanh1652554@gmail.com",
                                 to: email,
                                 subject,
                                 message

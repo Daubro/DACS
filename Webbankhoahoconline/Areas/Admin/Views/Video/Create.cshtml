@@ -1,0 +1,42 @@
+﻿@{
+    ViewData["Title"] = "Thêm Video";
+    var courseId = ViewBag.CourseId;
+}
+
+<h2>Thêm Video cho khóa học @courseId</h2>
+
+<form asp-action="Create" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="courseId" value="@courseId" />
+
+    <div class="form-group">
+        <label for="videoFile">Chọn file video:</label>
+        <input type="file" name="videoFile" id="videoFile" class="form-control" accept="video/*" />
+        @if (ViewData.ModelState["videoFile"]?.Errors.Count > 0)
+        {
+            <span class="text-danger">@ViewData.ModelState["videoFile"].Errors[0].ErrorMessage</span>
+        }
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Upload Video</button>
+</form>
+
+@if (TempData["success"] != null)
+{
+    <div class="alert alert-success mt-3">
+        @TempData["success"]
+    </div>
+}
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger mt-3">
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <div>@error.ErrorMessage</div>
+        }
+    </div>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

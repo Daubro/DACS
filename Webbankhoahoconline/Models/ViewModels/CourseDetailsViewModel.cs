@@ -11,5 +11,6 @@ namespace Webbankhoahoconline.Models.ViewModels
         public string Name { get; set; }
         [Required(ErrorMessage = "Vui lòng nhập email của bạn")]
         public string Email { get; set; }
+        public IEnumerable<VideoModel> Videos { get; set; }
     }
 }

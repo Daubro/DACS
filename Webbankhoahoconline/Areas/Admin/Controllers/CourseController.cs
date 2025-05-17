@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Webbankhoahoconline.Models;
+using Webbankhoahoconline.Models.ViewModels;
 using Webbankhoahoconline.Repositories;
 
 namespace Webbankhoahoconline.Areas.Admin.Controllers
@@ -14,11 +15,13 @@ namespace Webbankhoahoconline.Areas.Admin.Controllers
     {
         private readonly DataContext _dataContext;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly HttpClient _httpClient;
 
-        public CourseController(DataContext context, IWebHostEnvironment webHostEnvironment)
+        public CourseController(DataContext context, IWebHostEnvironment webHostEnvironment, IHttpClientFactory httpClientFactory)
         {
             _dataContext = context;
             _webHostEnvironment = webHostEnvironment;
+            _httpClient = httpClientFactory.CreateClient();
         }
         // Danh sách khóa học
         public async Task<IActionResult> Index()
@@ -26,12 +29,27 @@ namespace Webbankhoahoconline.Areas.Admin.Controllers
             return View(await _dataContext.Courses.OrderByDescending(co => co.Id).Include(co => co.Category).Include(co => co.Instructor).ToListAsync());
         }
         // Xem chi tiết khóa học
-        public async Task<IActionResult> Details(int Id)
+        public IActionResult Details(long id)
         {
-            if (Id == null) return RedirectToAction("Index");
-            var coursesById = _dataContext.Courses.Where(co => co.Id == Id).FirstOrDefault();
-            return View(coursesById);
+            var course = _dataContext.Courses.FirstOrDefault(co => co.Id == id);
+            if (course == null)
+                return NotFound();
+
+            var videos = _dataContext.Videos.Where(v => v.CourseId == id).ToList();
+
+            var model = new CourseDetailsViewModel
+            {
+                CourseDetails = course,
+                Videos = videos,
+                Comment = "",
+                Name = "",
+                Email = ""
+            };
+
+            return View(model);
         }
+
+
         // Hiển thị form thêm khóa học (Chỉ Admin mới có quyền)
         public IActionResult Create()
         {
@@ -98,6 +116,9 @@ namespace Webbankhoahoconline.Areas.Admin.Controllers
             CourseModel course = await _dataContext.Courses.FirstAsync(co => co.Id == Id);
             ViewBag.Categories = new SelectList(_dataContext.Categories, "Id", "Name", course.CategoryId);
             ViewBag.Instructors = new SelectList(_dataContext.Instructors, "Id", "Name", course.InstructorId);
+
+            var videos = _dataContext.Videos.Where(v => v.CourseId == Id).ToList();
+            ViewBag.Videos = videos;
 
             return View(course);
         }
@@ -168,6 +189,7 @@ namespace Webbankhoahoconline.Areas.Admin.Controllers
 
             return View(course);
         }
+
         public async Task<IActionResult> Delete(long Id)
         {
             CourseModel course = await _dataContext.Courses.FirstAsync(co => co.Id == Id);

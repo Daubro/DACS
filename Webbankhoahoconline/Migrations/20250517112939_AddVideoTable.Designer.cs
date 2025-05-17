@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Webbankhoahoconline.Repositories;
 
@@ -11,9 +12,11 @@ using Webbankhoahoconline.Repositories;
 namespace Webbankhoahoconline.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20250517112939_AddVideoTable")]
+    partial class AddVideoTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -506,9 +509,6 @@ namespace Webbankhoahoconline.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<long>("CourseId")
-                        .HasColumnType("bigint");
-
                     b.Property<string>("FileName")
                         .HasColumnType("nvarchar(max)");
 
@@ -519,8 +519,6 @@ namespace Webbankhoahoconline.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CourseId");
 
                     b.ToTable("Videos");
                 });
@@ -628,17 +626,6 @@ namespace Webbankhoahoconline.Migrations
                     b.Navigation("Course");
                 });
 
-            modelBuilder.Entity("Webbankhoahoconline.Models.VideoModel", b =>
-                {
-                    b.HasOne("Webbankhoahoconline.Models.CourseModel", "Course")
-                        .WithMany("Videos")
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Course");
-                });
-
             modelBuilder.Entity("OrderModel", b =>
                 {
                     b.Navigation("OrderDetails");
@@ -657,8 +644,6 @@ namespace Webbankhoahoconline.Migrations
             modelBuilder.Entity("Webbankhoahoconline.Models.CourseModel", b =>
                 {
                     b.Navigation("Reviews");
-
-                    b.Navigation("Videos");
                 });
 
             modelBuilder.Entity("Webbankhoahoconline.Models.InstructorModel", b =>
