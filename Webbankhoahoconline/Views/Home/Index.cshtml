@@ -27,7 +27,7 @@
                                 <img src="~/images/@item.ImageUrl" alt="@item.Name" style="width: 100%; height: 200px; object-fit: cover;" />
                             </a>
 
-                            <h2>$@item.Price.ToString("#,##0,VNĐ")</h2>
+                            <h2>@item.Price.ToString("#,##0,VNĐ")</h2>
                             <p><strong>@item.Name</strong></p>
                             <p>Danh mục: @item.Category.Name</p>
                             <p>Giảng viên: @item.Instructor.Name</p>
@@ -36,12 +36,7 @@
                         </div>
                     </div>
 
-                    <div class="choose">
-                        <ul class="nav nav-pills nav-justified">
-                            <li><a href="#"><i class="fa fa-heart"></i> Yêu thích</a></li>
-                            <li><a href="#"><i class="fa fa-exchange"></i> Thêm vào giỏ hàng</a></li>
-                        </ul>
-                    </div>
+                    
                 </div>
             </div>
         }

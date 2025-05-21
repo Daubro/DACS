@@ -58,9 +58,9 @@
 			<!--header-middle-->
 			<div class="container">
 				<div class="row">
-					<div class="col-sm-4">
-						<div class="logo pull-left">
-							<a href="index.html"><img src="images/home/logo.png" alt="" /></a>
+					<div class="col-sm-4" ">
+						<div class="logo pull-left" style="margin-right: 20px;">
+							<img src="/images/logo/logo.png" width="120px" height="120px" />
 						</div>
 						<div class="btn-group pull-right">
 							<div class="btn-group">
@@ -94,7 +94,6 @@
 								@if (User.Identity?.IsAuthenticated ?? false)
 								{
 									<li><a ><i class="fa fa-user"></i> Tài khoản</a></li>
-									<li><a href="#"><i class="fa fa-star"></i> Khóa học yêu thích</a></li>
 									<li><a asp-controller="Cart" asp-action="Checkout"><i class="fa fa-crosshairs"></i> Thanh toán</a></li>
 									<li><a asp-controller="Admin" asp-action="Index"><i class="fa fa-lock"></i> Admin</a> </li>
 									<li><a asp-controller="Account" asp-action="Logout"><i class="fa fa-lock"></i>Xin Chào, @User.Identity.Name, Đăng xuất</a></li>
@@ -145,7 +144,7 @@
 									</ul>
 								</li>
 								
-								<li><a href="contact-us.html">Liên hệ</a></li>
+								<li><a asp-action="Contact" asp-controller="Home">Liên hệ</a></li>
 							</ul>
 						</div>
 					</div>
@@ -225,6 +224,7 @@
 	<section>
 		<div class="container">
 			<div class="row">
+				<partial name="_NotificationPartial"/>
 				@RenderBody();
 			</div>
 		</div>
@@ -232,121 +232,43 @@
 
 	<footer id="footer">
 		<!--Footer-->
-		<div class="footer-top">
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-2">
-						<div class="companyinfo">
-							<h2><span>e</span>-learning</h2>
-							<p>Cung cấp các khóa học chất lượng cao, giúp bạn nâng cao kỹ năng và kiến thức.</p>
-						</div>
-					</div>
-					<div class="col-sm-7">
-						<div class="col-sm-3">
-							<div class="video-gallery text-center">
-								<a href="#">
-									<div class="iframe-img">
-										<img src="images/home/iframe1.png" alt="" />
-									</div>
-									<div class="overlay-icon">
-										<i class="fa fa-play-circle-o"></i>
-									</div>
-								</a>
-								<p>Học lập trình</p>
-								<h2>24 DEC 2025</h2>
-							</div>
-						</div>
+		<partial name="_FooterPartial" />
 
-						<div class="col-sm-3">
-							<div class="video-gallery text-center">
-								<a href="#">
-									<div class="iframe-img">
-										<img src="images/home/iframe2.png" alt="" />
-									</div>
-									<div class="overlay-icon">
-										<i class="fa fa-play-circle-o"></i>
-									</div>
-								</a>
-								<p>Học thiết kế</p>
-								<h2>24 DEC 2025</h2>
-							</div>
-						</div>
-
-						<div class="col-sm-3">
-							<div class="video-gallery text-center">
-								<a href="#">
-									<div class="iframe-img">
-										<img src="images/home/iframe3.png" alt="" />
-									</div>
-									<div class="overlay-icon">
-										<i class="fa fa-play-circle-o"></i>
-									</div>
-								</a>
-								<p>Học kinh doanh</p>
-								<h2>24 DEC 2025</h2>
-							</div>
-						</div>
-
-						<div class="col-sm-3">
-							<div class="video-gallery text-center">
-								<a href="#">
-									<div class="iframe-img">
-										<img src="images/home/iframe4.png" alt="" />
-									</div>
-									<div class="overlay-icon">
-										<i class="fa fa-play-circle-o"></i>
-									</div>
-								</a>
-								<p>Học marketing</p>
-								<h2>24 DEC 2025</h2>
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-3">
-						<div class="address">
-							<img src="images/home/map.png" alt="" />
-							<p>505 S Atlantic Ave, Virginia Beach, VA</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<div class="footer-widget">
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-4">
-						<div class="single-widget">
-							<h2>Dịch vụ</h2>
-							<ul class="nav nav-pills nav-stacked">
-								<li><a href="#">Hỗ trợ trực tuyến</a></li>
-								<li><a href="#">Liên hệ</a></li>
-								<li><a href="#">Trạng thái đơn hàng</a></li>
-								<li><a href="#">Đổi địa điểm</a></li>
-								<li><a href="#">Câu hỏi thường gặp</a></li>
-							</ul>
-						</div>
-					</div>
+		@* <div class="footer-widget"> *@
+		@* 	<div class="container"> *@
+		@* 		<div class="row"> *@
+		@* 			<div class="col-sm-4"> *@
+		@* 				<div class="single-widget"> *@
+		@* 					<h2>Dịch vụ</h2> *@
+		@* 					<ul class="nav nav-pills nav-stacked"> *@
+		@* 						<li><a href="#">Hỗ trợ trực tuyến</a></li> *@
+		@* 						<li><a href="#">Liên hệ</a></li> *@
+		@* 						<li><a href="#">Trạng thái đơn hàng</a></li> *@
+		@* 						<li><a href="#">Đổi địa điểm</a></li> *@
+		@* 						<li><a href="#">Câu hỏi thường gặp</a></li> *@
+		@* 					</ul> *@
+		@* 				</div> *@
+		@* 			</div> *@
 					
-					<div class="col-sm-4">
-						<div class="single-widget">
-							<h2>Chính sách</h2>
-							<ul class="nav nav-pills nav-stacked">
-								<li><a href="#">Điều khoản sử dụng</a></li>
-								<li><a href="#">Chính sách bảo mật</a></li>
-								<li><a href="#">Chính sách hoàn tiền</a></li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+		@* 			<div class="col-sm-4"> *@
+		@* 				<div class="single-widget"> *@
+		@* 					<h2>Chính sách</h2> *@
+		@* 					<ul class="nav nav-pills nav-stacked"> *@
+		@* 						<li><a href="#">Điều khoản sử dụng</a></li> *@
+		@* 						<li><a href="#">Chính sách bảo mật</a></li> *@
+		@* 						<li><a href="#">Chính sách hoàn tiền</a></li> *@
+		@* 					</ul> *@
+		@* 				</div> *@
+		@* 			</div> *@
+		@* 		</div> *@
+		@* 	</div> *@
+		@* </div> *@
 
-		<div class="footer-bottom">
+		<div class="footer-bottom fixed-bottom bg-light py-2">
 			<div class="container">
 				<div class="row">
-					<p class="pull-left">Bản quyền &copy; 2025 Web Bán Khóa Học.</p>
-					<p class="pull-right">Thiết kế bởi <span><a target="_blank" href="#">Nhóm phát triển</a></span></p>
+					<p class="pull-left mb-0">Bản quyền &copy; 2025 Web Bán Khóa Học.</p>
+					<p class="pull-right mb-0">Thiết kế bởi <a target="_blank" href="#">Đậu Xuân Khánh</a></p>
 				</div>
 			</div>
 		</div>
@@ -354,6 +276,8 @@
 	</footer><!--/Footer-->
 
 
+	<div id="fb-root"></div>
+	<script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v22.0"></script>
 
 	<script src="~/js/jquery.js"></script>
 	<script src="~/js/bootstrap.min.js"></script>
@@ -362,6 +286,21 @@
 	<script src="~/js/jquery.prettyPhoto.js"></script>
 	<script src="~/js/main.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.21.0/dist/sweetalert2.all.min.js"></script>
+
+	<script>
+						window.onload = function() {
+		  var path = window.location.pathname.toLowerCase();
+		  if (path === "/home/contact") {
+			var footerTop = document.querySelector(".footer-top");
+			if (footerTop) {
+			  footerTop.style.backgroundColor = 'white';
+			  footerTop.style.height = footerTop.offsetHeight + 'px'; 
+		      footerTop.style.visibility = 'hidden';
+			}
+		  }
+		}
+
+	</script>
 
 	@await RenderSectionAsync("Scripts", required: false)
 </body>

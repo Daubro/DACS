@@ -25,6 +25,11 @@ namespace Webbankhoahoconline.Controllers
             ViewBag.Sliders = sliders;
             return View(courses);
         }
+        public async Task<IActionResult> Contact()
+        {
+            var contact = await _dataContext.Contacts.FirstAsync();
+            return View(contact);
+        }
 
         public IActionResult Privacy()
         {
