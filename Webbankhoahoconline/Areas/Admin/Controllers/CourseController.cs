@@ -207,6 +207,37 @@ namespace Webbankhoahoconline.Areas.Admin.Controllers
             TempData["success"] = "Đã xóa Khóa học";
             return RedirectToAction("Index");
         }
+        [Route("AddQuantity")]
+        [HttpGet]
+        public async Task<IActionResult> AddQuantity(int Id)
+        {
+            var coursebyquantity = await _dataContext.CourseQuantities.Where(cq => cq.CourseId == Id).ToListAsync();
+            ViewBag.CourseByQuantity = coursebyquantity;
+            ViewBag.Id = Id;    
+            return View();
+        }
+        [Route("CourseQuantity")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public  IActionResult CourseQuantity(CourseQuantityModel courseQuantityModel)
+        {
+            
+                var course =  _dataContext.Courses.Find(courseQuantityModel.CourseId);
+                if (course == null)
+                {
+                    return NotFound();
+                }
+                course.Quantity += courseQuantityModel.Quantity;
+
+            courseQuantityModel.Quantity = courseQuantityModel.Quantity;
+            courseQuantityModel.CourseId = courseQuantityModel.CourseId;
+            courseQuantityModel.CreateDate = DateTime.Now;
+
+            _dataContext.Add(courseQuantityModel);
+            _dataContext.SaveChanges();
+            TempData["success"] = "Cập nhật số lượng khóa học thành công";
+            return RedirectToAction("AddQuantity", "Course", new {Id= courseQuantityModel.CourseId});
+        }
     }
     
 }

@@ -37,6 +37,7 @@ namespace Webbankhoahoconline.Models
         [ForeignKey("InstructorId")]
         public InstructorModel Instructor { get; set; }
         public ICollection<VideoModel> Videos { get; set; }
-
+        public int Quantity { get; set; } 
+        public int Sold { get; set; }
     }
 }

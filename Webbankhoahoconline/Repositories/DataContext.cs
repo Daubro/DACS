@@ -20,7 +20,7 @@ namespace Webbankhoahoconline.Repositories
         public DbSet<SliderModel> Sliders { get; set; }
         public DbSet<VideoModel> Videos { get; set; }
         public DbSet<ContactModel> Contacts { get; set; }
-
+        public DbSet<CourseQuantityModel> CourseQuantities { get; set; } 
 
     }
 }

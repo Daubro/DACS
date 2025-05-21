@@ -9,6 +9,8 @@
         <tr>
             <th scope="col">ID</th>
             <th scope="col">Course Name</th>
+            <th scope="col">Course Quantity</th>
+            <th scope="col">Course Sold</th>
             <th scope="col">Course Description</th>
             <th scope="col">Course Price</th>
             <th scope="col">Course Image</th>
@@ -23,6 +25,8 @@
 			<tr>
 				<th scope="row">@item.Id</th>
 				<td>@item.Name</td>
+                <td><b>@item.Quantity</b><a asp-action="AddQuantity" asp-controller="Course" asp-route-Id="@item.Id">Add Quantity</a></td>
+                <td><b>@item.Sold</b></td>
                 <td>@Html.Raw(@item.Description)</td>
                 <td>@item.Price</td>
 				<td><img src="~/images/@item.ImageUrl" width="120" alt="Course Image" /></td>

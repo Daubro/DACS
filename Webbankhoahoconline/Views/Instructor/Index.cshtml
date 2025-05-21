@@ -13,16 +13,23 @@
         @foreach (var item in Model)
         {
             <div class="col-sm-4">
-                <div class="product-image-wrapper">
+                <div class="course-image-wrapper">
                     <a>
-                    <div class="single-products">
-                        <div class="productinfo text-center">
+                        <div class="single-courses">
+                            <div class="courseinfo text-center">
                                 <img src="~/images/@item.ImageUrl" alt="@item.Name" style="width: 100%; height: 200px; object-fit: cover;" />
                                 <h2>$@item.Price.ToString("#,##0,VNĐ")</h2>
                             <p>@item.Name</p>
                             <p>Danh mục : @item.Category.Name</p>
                             <p>Tên giảng viên : @item.Instructor.Name</p>
-                                <a class="btn btn-default add-to-cart" asp-action="Add" asp-controller="Cart" asp-route-Id="@item.Id"><i class="fa fa-shopping-cart"></i> Đăng ký ngay </a>
+                                @if (item.Quantity > 0)
+                                {
+                                    <button class="btn btn-default add-to-cart" data-course_id="@item.Id" asp-action="Add" asp-controller="Cart"><i class="fa fa-shopping-cart"></i> Đăng ký </button>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-default"><i class="fa fa-shopping-cart"></i> Hết khoá học </button>
+                                }
                             </div>
                     </div>
                     </a>

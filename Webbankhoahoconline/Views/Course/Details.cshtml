@@ -18,7 +18,7 @@
                 <div id="similar-course" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner">
                         <div class="item active">
-                            
+
                         </div>
                         <!-- Các slide khác -->
                     </div>
@@ -35,10 +35,20 @@
                     <h2>@Model.CourseDetails.Name</h2>
                     <span>
                         <span>@Model.CourseDetails.Price.ToString("#,##0,VNĐ")</span>
-                        <button type="button" class="btn btn-default cart">
-                            <i class="fa fa-shopping-cart"></i>
-                            Thêm vào giỏ hàng
-                        </button>
+                        @if (@Model.CourseDetails.Quantity > 0)
+                        {
+                            <button type="button" class="btn btn-default cart">
+                                <i class="fa fa-shopping-cart"></i>
+                                Đăng ký
+                            </button>
+                        }
+                        else
+                        {
+                            <button type="button" class="btn btn-default ">
+                                <i class="fa fa-shopping-cart"></i>
+                                Hết khóa học
+                            </button>
+                        }
                     </span>
                     <p><b>Tình trạng:</b> Còn khóa học</p>
                     <p><b>Danh Mục:</b> @Model.CourseDetails.Category.Name</p>
