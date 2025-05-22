@@ -7,5 +7,7 @@ namespace Webbankhoahoconline.Models
         // Thêm thuộc tính tùy chỉnh nếu muốn
         public string FullName { get; set; }
         public string RoleId { get; set; }
+        public string Token { get; set; }
+
     }
 }

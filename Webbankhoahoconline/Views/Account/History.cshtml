@@ -1,8 +1,8 @@
 ﻿@model IEnumerable<OrderModel>
 @{
-    ViewData["Title"] = "Order Listed";
+    ViewData["Title"] = "List History Orders placed by " +""+ ViewBag.UserEmail;
 }
-<h3>List Order</h3>
+<h3>List History Orders placed by @ViewBag.UserEmail</h3>
 <table class="table" id="myTable">
     <thead>
         <tr>
@@ -22,7 +22,7 @@
                 <th scope="row">@item.OrderCode</th>
                 <td>@item.UserName</td>
                 <td>@item.OrderDate</td>
-                
+
                 <td>
                     @if (item.Status == 1)
                     {
@@ -32,17 +32,15 @@
                     {
                         <span class="text text-primary">Đã xử lý</span>
                     }
-                    else
-                    {
-                        <span class="text text-danger">Đã hủy</span>
+                    else{
+						<span class="text text-danger">Đã hủy</span>
                     }
                 </td>
 
                 <td>
-                    <div style="display: flex; gap: 5px;">
-                        <a asp-action="ViewOrder" class="btn btn-warning btn-sm" asp-controller="Order" asp-route-ordercode="@item.OrderCode">View Order</a>
-                        <a asp-action="Delete" class="btn btn-danger btn-sm confirmDeletion" asp-controller="Order" asp-route-ordercode="@item.OrderCode">Delete</a>
-                    </div>
+                    @if (item.Status != 3){
+                        <a asp-action="CancelOrder" class="btn btn-danger btn-sm" onclick="return confirm('Xác nhận huỷ đơn hàng') asp-controller="Account" asp-route-ordercode="@item.OrderCode">Cancel Order</a>
+                    }
                 </td>
             </tr>
         }

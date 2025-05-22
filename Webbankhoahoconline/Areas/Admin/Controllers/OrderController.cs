@@ -22,6 +22,8 @@ namespace Webbankhoahoconline.Areas.Admin.Controllers
         public async Task<IActionResult> ViewOrder(string ordercode)
         {
             var DetailOrder = await _dataContext.OrderDetails.Include(od => od.Course).Where(od => od.OrderCode == ordercode).ToListAsync();
+            var Order = _dataContext.Orders.Where(o => o.OrderCode == ordercode).First();
+            ViewBag.Status = Order.Status;
             return View(DetailOrder);
         }
         [HttpPost]

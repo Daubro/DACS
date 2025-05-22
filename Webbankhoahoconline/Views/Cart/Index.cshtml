@@ -43,7 +43,7 @@
                                     <input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2" readonly>
                                 </td>
                                 <td class="cart_total">
-                                    <p class="cart_total_price">$@(1 * item.Price)</p>
+                                    <p class="cart_total_price">@(1 * item.Price)VNĐ</p>
                                 </td>
                                 <td class="cart_delete">
                                     <a class="cart_quantity_delete text-danger" asp-controller="Cart" asp-action="Remove" asp-route-id="@item.CourseId" style="padding: 0; margin: 0;">
@@ -60,7 +60,7 @@
                                 <a class="btn btn-danger btn-sm ml-3" asp-controller="Cart" asp-action="Clear">Clear</a>
                                 @if (User.Identity?.IsAuthenticated ?? false)
                                 {
-                                    <a class="btn btn-primary btn-sm ml-3" asp-controller="Checkout" asp-action="Checkout">Check Out</a>
+                                    <a class="btn btn-primary btn-sm ml-3" onclick="return confirm('Xác nhận mua khóa học')" asp-controller="Checkout" asp-action="Checkout">Mua khóa học</a>
                                 }
                             </td>
                         </tr>

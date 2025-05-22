@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Webbankhoahoconline.Repositories;
 
@@ -11,9 +12,11 @@ using Webbankhoahoconline.Repositories;
 namespace Webbankhoahoconline.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20250522090801_token")]
+    partial class token
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -177,7 +180,7 @@ namespace Webbankhoahoconline.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("Webbankhoahoconline.Models.ApplicationUser", b =>
@@ -284,7 +287,7 @@ namespace Webbankhoahoconline.Migrations
 
                     b.HasIndex("CartModelId");
 
-                    b.ToTable("CartItems", (string)null);
+                    b.ToTable("CartItems");
                 });
 
             modelBuilder.Entity("Webbankhoahoconline.Models.CartModel", b =>
@@ -297,7 +300,7 @@ namespace Webbankhoahoconline.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Carts", (string)null);
+                    b.ToTable("Carts");
                 });
 
             modelBuilder.Entity("Webbankhoahoconline.Models.CategoryModel", b =>
@@ -324,7 +327,7 @@ namespace Webbankhoahoconline.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("Webbankhoahoconline.Models.ContactModel", b =>
@@ -353,7 +356,7 @@ namespace Webbankhoahoconline.Migrations
 
                     b.HasKey("Name");
 
-                    b.ToTable("Contacts", (string)null);
+                    b.ToTable("Contacts");
                 });
 
             modelBuilder.Entity("Webbankhoahoconline.Models.CourseModel", b =>
@@ -402,7 +405,7 @@ namespace Webbankhoahoconline.Migrations
 
                     b.HasIndex("InstructorId");
 
-                    b.ToTable("Courses", (string)null);
+                    b.ToTable("Courses");
                 });
 
             modelBuilder.Entity("Webbankhoahoconline.Models.CourseQuantityModel", b =>
@@ -424,7 +427,7 @@ namespace Webbankhoahoconline.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CourseQuantities", (string)null);
+                    b.ToTable("CourseQuantities");
                 });
 
             modelBuilder.Entity("Webbankhoahoconline.Models.InstructorModel", b =>
@@ -459,7 +462,7 @@ namespace Webbankhoahoconline.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Instructors", (string)null);
+                    b.ToTable("Instructors");
                 });
 
             modelBuilder.Entity("Webbankhoahoconline.Models.OrderDetailModel", b =>
@@ -494,7 +497,7 @@ namespace Webbankhoahoconline.Migrations
 
                     b.HasIndex("OrderModelId");
 
-                    b.ToTable("OrderDetails", (string)null);
+                    b.ToTable("OrderDetails");
                 });
 
             modelBuilder.Entity("Webbankhoahoconline.Models.ReviewModel", b =>
@@ -528,7 +531,7 @@ namespace Webbankhoahoconline.Migrations
                     b.HasIndex("CourseId")
                         .IsUnique();
 
-                    b.ToTable("Reviews", (string)null);
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("Webbankhoahoconline.Models.SliderModel", b =>
@@ -555,7 +558,7 @@ namespace Webbankhoahoconline.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Sliders", (string)null);
+                    b.ToTable("Sliders");
                 });
 
             modelBuilder.Entity("Webbankhoahoconline.Models.VideoModel", b =>
@@ -582,7 +585,7 @@ namespace Webbankhoahoconline.Migrations
 
                     b.HasIndex("CourseId");
 
-                    b.ToTable("Videos", (string)null);
+                    b.ToTable("Videos");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
