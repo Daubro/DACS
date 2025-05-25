@@ -22,5 +22,6 @@ namespace Webbankhoahoconline.Repositories
         public DbSet<ContactModel> Contacts { get; set; }
         public DbSet<CourseQuantityModel> CourseQuantities { get; set; } 
 
+        public DbSet<StatisticalModel> Statisticals { get; set; }
     }
 }

@@ -61,6 +61,13 @@
                                 @if (User.Identity?.IsAuthenticated ?? false)
                                 {
                                     <a class="btn btn-primary btn-sm ml-3" onclick="return confirm('Xác nhận mua khóa học')" asp-controller="Checkout" asp-action="Checkout">Mua khóa học</a>
+                                    <form method="POST" asp-action="CreatePaymentMomo" asp-controller="Payment">
+										<input type="hidden" name="Amount" value="@Model.TotalPrice" />
+										<input type="hidden" name="OrderId" value="@Guid.NewGuid().ToString()" />
+										<input type="hidden" name="OrderInfo" value="Thanh toán Momo cho đơn hàng tại Daubro" />
+										<input type="hidden" name="FullName" value="Daubro" />
+                                        <button class="btn btn-danger" name="PayUrl" type="submit">Pay with Momo</button>
+                                    </form>
                                 }
                             </td>
                         </tr>

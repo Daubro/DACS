@@ -2,10 +2,15 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Webbankhoahoconline.Areas.Admin.Repository;
 using Webbankhoahoconline.Models;
+using Webbankhoahoconline.Models.Momo;
 using Webbankhoahoconline.Repositories;
+using Webbankhoahoconline.Services.Momo;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Connect MomoApi
+builder.Services.Configure<MomoOptionModel>(builder.Configuration.GetSection("MomoAPI"));
+builder.Services.AddScoped<IMomoService, MomoService>();
 // K?t n?i cõ s? d? li?u
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectedDb")));
