@@ -10,5 +10,6 @@ public class OrderModel
     public string UserName { get; set; }
     public DateTime OrderDate { get; set; }
     public int Status { get; set; } 
+    public string? PaymentMethod { get; set; } 
     public List<OrderDetailModel> OrderDetails { get; set; } = new List<OrderDetailModel>();
 }

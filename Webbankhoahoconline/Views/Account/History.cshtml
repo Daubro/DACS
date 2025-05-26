@@ -9,8 +9,9 @@
             <th scope="col">ID</th>
             <th scope="col">Order Code</th>
             <th scope="col">UserName</th>
-            <th scope="col">Order Date</th>
             <th scope="col">Order Status</th>
+            <th scope="col">Payment Method</th>
+            <th scope="col">Order Date</th>
             <th scope="col">Action</th>
         </tr>
     </thead>
@@ -21,7 +22,6 @@
                 <th>@item.Id</th>
                 <th scope="row">@item.OrderCode</th>
                 <td>@item.UserName</td>
-                <td>@item.OrderDate</td>
 
                 <td>
                     @if (item.Status == 1)
@@ -36,6 +36,17 @@
 						<span class="text text-danger">Đã hủy</span>
                     }
                 </td>
+				<td>
+					@if (item.PaymentMethod == "COD"||item.PaymentMethod ==null)
+					{
+                        <span class="text text-primary">@item.PaymentMethod</span>
+					}
+					else 
+					{
+						<span class="text text-danger">Qua MOMO @item.PaymentMethod</span>
+					}
+                        </td>
+                <td>@item.OrderDate</td>
 
                 <td>
                     @if (item.Status != 3){

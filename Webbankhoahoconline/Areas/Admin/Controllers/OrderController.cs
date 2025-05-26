@@ -26,6 +26,17 @@ namespace Webbankhoahoconline.Areas.Admin.Controllers
             ViewBag.Status = Order.Status;
             return View(DetailOrder);
         }
+        [HttpGet]
+        [Route("PaymentMomoInfo")]
+        public async Task<IActionResult> PaymentMomoInfo(string orderId)
+        {
+            var momoInfo = await _dataContext.MomoInfos.FirstOrDefaultAsync(m => m.OrderId == orderId);
+            if (momoInfo == null)
+            {
+                return NotFound();
+            }
+            return View(momoInfo);
+        }
         [HttpPost]
         [Route("UpdateOrder")]
         public async Task<IActionResult> UpdateOrder(string ordercode, int status)
