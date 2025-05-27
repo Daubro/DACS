@@ -31,35 +31,8 @@ namespace Webbankhoahoconline.Controllers
             ViewBag.Keyword = searchTerm;
             return View(courses);
         }
-        [HttpGet]
-        public async Task<IActionResult> Learn(int id)
-        {
-            var userEmail = User.FindFirstValue(ClaimTypes.Email);
-            if (userEmail == null)
-                return RedirectToAction("Login", "Account");
+        
 
-            // Kiểm tra user đã mua khóa học chưa
-            var hasPurchased = await _dataContext.OrderDetails
-                .AnyAsync(od => od.UserName == userEmail && od.CourseId == id);
-
-            if (!hasPurchased)
-            {
-                Console.WriteLine("Người dùng chưa mua khóa học.");
-                return View("NotPurchased");
-            }
-
-
-            var course = await _dataContext.Courses
-                .Include(c => c.Videos)
-                .FirstOrDefaultAsync(c => c.Id == id);
-
-            if (course == null)
-            {
-                return NotFound();
-            }
-
-            return View(course); // Truyền sang view Learn.cshtml
-        }
         // Xem chi tiết khóa học
         public async Task<IActionResult> Details(long id)
         {
@@ -164,6 +137,70 @@ namespace Webbankhoahoconline.Controllers
             }
             return RedirectToAction("Details", "Course");
         }
+        public async Task<IActionResult> Learn()
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userIdClaim == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            string userId = userIdClaim.Value;
+
+            var courses = await _dataContext.OrderDetails
+                .Include(od => od.Order)
+                .Include(od => od.Course)
+                .Where(od => od.Order.UserId == userId && od.Order.Status == 2)
+                .Select(od => od.Course)
+                .Distinct()
+                .ToListAsync();
+
+            if (!courses.Any())
+            {
+                ViewBag.Message = "Bạn chưa mua khóa học nào hoặc đơn hàng chưa được xử lý.";
+                return View(new List<CourseModel>());
+            }
+
+            return View(courses);
+        }
+
+
+        public async Task<IActionResult> Watch(int courseId)
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userIdClaim == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            string userId = userIdClaim.Value; // giữ nguyên chuỗi GUID
+
+            // Kiểm tra quyền xem
+            var hasAccess = await _dataContext.OrderDetails
+                .Include(od => od.Order)
+                .AnyAsync(od => od.Order.UserId.ToString() == userId
+                             && od.CourseId == courseId
+                             && od.Order.Status == 2);
+
+            if (!hasAccess)
+            {
+                return Forbid();
+            }
+
+            // Lấy danh sách video theo courseId
+            var videos = await _dataContext.Videos
+                .Include(v => v.Course)
+                .Where(v => v.CourseId == courseId)
+                .ToListAsync();
+
+            if (!videos.Any())
+            {
+                ViewBag.Message = "Chưa có video nào cho khóa học này.";
+            }
+
+            return View(videos); // Truyền danh sách video cho View
+        }
+
+
 
         // Xóa khóa học
         public async Task<IActionResult> Delete(int id)

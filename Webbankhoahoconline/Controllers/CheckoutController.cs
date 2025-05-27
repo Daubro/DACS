@@ -19,63 +19,62 @@ namespace Webbankhoahoconline.Controllers
             _emailSender = emailSender;
             _momoService = momoService;
         }
+
         public async Task<IActionResult> Checkout(string OrderId)
         {
             var userEmail = User.FindFirstValue(ClaimTypes.Email);
-            if (userEmail == null)
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userEmail == null || userId == null)
             {
                 return RedirectToAction("Login", "Account");
             }
-            else
+
+            var ordercode = Guid.NewGuid().ToString();
+            var orderItem = new OrderModel
             {
-                var ordercode = Guid.NewGuid().ToString();
-                var orderItem = new OrderModel();
-                orderItem.OrderCode = ordercode;
-                orderItem.UserName = userEmail;
-                if (OrderId != null)
-                {
-                    orderItem.PaymentMethod = OrderId;
-                }
-                else
-                {
-                    orderItem.PaymentMethod = "COD";
-                }
-                orderItem.OrderDate = DateTime.Now;
-                orderItem.Status = 1;
-                _dataContext.Add(orderItem);
-                _dataContext.SaveChanges();
-                List<CartItemModel> cartItems = HttpContext.Session.GetJson<List<CartItemModel>>("Cart") ?? new List<CartItemModel>();
-                foreach (var cart in cartItems)
-                {
-                    var orderDetail = new OrderDetailModel();
-                    orderDetail.UserName = userEmail;
-                    orderDetail.OrderCode = ordercode;
-                    orderDetail.CourseId = cart.CourseId;
-                    orderDetail.Price = cart.Price;
-                    orderDetail.Quantity = 1;
-                    _dataContext.Add(orderDetail);
-                    _dataContext.SaveChanges();
-                }
-                HttpContext.Session.Remove("Cart");
-                //Send email
-                var receiver = userEmail;
-                var subject = "Đặt hàng thành công";
-                var message = "Đặt hàng thành công, trải nghiệm dịch vụ của chúng tôi nhé.";
+                OrderCode = ordercode,
+                UserName = userEmail,
+                UserId = userId, // Gán UserId cho order
+                PaymentMethod = OrderId ?? "COD",
+                OrderDate = DateTime.Now,
+                Status = 1
+            };
 
-                await _emailSender.SendEmailAsync(receiver, subject, message);
+            _dataContext.Add(orderItem);
+            await _dataContext.SaveChangesAsync(); // Lưu để lấy Id của order
 
-                TempData["Success"] = "Đơn hàng đã được tạo ! Vui lòng đợi kiểm tra đơn hàng";
-                return RedirectToAction("Index", "Cart");
+            List<CartItemModel> cartItems = HttpContext.Session.GetJson<List<CartItemModel>>("Cart") ?? new List<CartItemModel>();
+            foreach (var cart in cartItems)
+            {
+                var orderDetail = new OrderDetailModel
+                {
+                    UserName = userEmail,
+                    OrderId = orderItem.Id,  // Gán khóa ngoại OrderId đúng
+                    OrderCode = orderItem.OrderCode,  // Gán OrderCode đúng
+                    CourseId = cart.CourseId,
+                    Price = cart.Price,
+                    Quantity = 1
+                };
+                _dataContext.Add(orderDetail);
             }
-            return View();
+            await _dataContext.SaveChangesAsync();
+
+
+            HttpContext.Session.Remove("Cart");
+
+            await _emailSender.SendEmailAsync(userEmail, "Đặt hàng thành công", "Đặt hàng thành công, trải nghiệm dịch vụ của chúng tôi nhé.");
+            TempData["Success"] = "Đơn hàng đã được tạo! Vui lòng đợi kiểm tra đơn hàng";
+
+            return RedirectToAction("Index", "Cart");
         }
+
         [HttpGet]
         public async Task<IActionResult> PaymentCallBack(MomoInfoModel model)
         {
             var response = _momoService.PaymentExecuteAsync(HttpContext.Request.Query);
             var requestQuery = HttpContext.Request.Query;
 
-            if (requestQuery["resultCode"] != 0)// giao dich khong thanh cong => luu database
+            if (requestQuery["resultCode"] != "0")
             {
                 var newMomoInsert = new MomoInfoModel
                 {
@@ -98,10 +97,12 @@ namespace Webbankhoahoconline.Controllers
 
             return View(response);
         }
+
         public async Task<IActionResult> CheckoutCourse(long courseId)
         {
             var userEmail = User.FindFirstValue(ClaimTypes.Email);
-            if (userEmail == null)
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userEmail == null || userId == null)
             {
                 return RedirectToAction("Login", "Account");
             }
@@ -118,6 +119,7 @@ namespace Webbankhoahoconline.Controllers
             {
                 OrderCode = ordercode,
                 UserName = userEmail,
+                UserId = userId, // Gán UserId cho order
                 PaymentMethod = "COD",
                 OrderDate = DateTime.Now,
                 Status = 1
@@ -129,7 +131,8 @@ namespace Webbankhoahoconline.Controllers
             var orderDetail = new OrderDetailModel
             {
                 UserName = userEmail,
-                OrderCode = ordercode,
+                OrderId = orderItem.Id, // Gán khóa ngoại OrderId đúng
+                OrderCode = orderItem.OrderCode, // Gán OrderCode đúng
                 CourseId = courseId,
                 Price = course.Price,
                 Quantity = 1
@@ -137,11 +140,9 @@ namespace Webbankhoahoconline.Controllers
             _dataContext.Add(orderDetail);
             await _dataContext.SaveChangesAsync();
 
+
             TempData["Success"] = "Đơn hàng đã được tạo! Vui lòng đợi kiểm tra đơn hàng";
             return RedirectToAction("Index", "Cart");
         }
-
-
     }
-
 }

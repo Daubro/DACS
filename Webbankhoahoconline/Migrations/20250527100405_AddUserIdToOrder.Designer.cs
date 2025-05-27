@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Webbankhoahoconline.Repositories;
 
@@ -11,9 +12,11 @@ using Webbankhoahoconline.Repositories;
 namespace Webbankhoahoconline.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20250527100405_AddUserIdToOrder")]
+    partial class AddUserIdToOrder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -175,8 +178,8 @@ namespace Webbankhoahoconline.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(max)");
@@ -510,7 +513,7 @@ namespace Webbankhoahoconline.Migrations
                     b.Property<string>("OrderCode")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("OrderId")
+                    b.Property<int?>("OrderModelId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
@@ -526,7 +529,7 @@ namespace Webbankhoahoconline.Migrations
 
                     b.HasIndex("CourseId");
 
-                    b.HasIndex("OrderId");
+                    b.HasIndex("OrderModelId");
 
                     b.ToTable("OrderDetails");
                 });
@@ -732,13 +735,11 @@ namespace Webbankhoahoconline.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("OrderModel", "Order")
+                    b.HasOne("OrderModel", null)
                         .WithMany("OrderDetails")
-                        .HasForeignKey("OrderId");
+                        .HasForeignKey("OrderModelId");
 
                     b.Navigation("Course");
-
-                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("Webbankhoahoconline.Models.ReviewModel", b =>

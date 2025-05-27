@@ -1,0 +1,28 @@
+﻿@model List<Webbankhoahoconline.Models.VideoModel>
+
+<h2>Danh sách video của khóa học @Model.FirstOrDefault()?.Course.Name</h2>
+
+@if (Model == null || !Model.Any())
+{
+    <div>@ViewBag.Message</div>
+}
+else
+{
+    <div class="row">
+        @foreach (var video in Model)
+        {
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-header">@video.FileName</div>
+                    <div class="card-body">
+                        <video controls width="100%" height="200">
+                            <source src="@video.Url" type="video/mp4" />
+                            Trình duyệt không hỗ trợ video.
+                        </video>
+                        <p><small>Ngày tải: @video.UploadDate.ToString("dd/MM/yyyy HH:mm")</small></p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

@@ -1,22 +1,18 @@
-﻿@model Webbankhoahoconline.Models.CourseModel
+﻿@model List<CourseModel>
 
-<h2>@Model.Name</h2>
-<p>@Model.Description</p>
-
-@if (Model.Videos != null && Model.Videos.Any())
+@if (!Model.Any())
 {
-    foreach (var video in Model.Videos)
-    {
-        <h4>@video.FileName</h4>
-        <video width="800" height="450" controls>
-            <source src="@video.Url" type="video/mp4" />
-            Trình duyệt không hỗ trợ video.
-        </video>
-        <hr />
-    }
+    <p>@ViewBag.Message</p>
 }
 else
 {
-    <p>Chưa có video nào cho khóa học này.</p>
+    <ul>
+        @foreach (var course in Model)
+        {
+            <li>
+                @course.Name -
+                <a asp-action="Watch" asp-route-courseId="@course.Id">Xem video</a>
+            </li>
+        }
+    </ul>
 }
-
