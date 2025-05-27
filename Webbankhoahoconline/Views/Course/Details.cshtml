@@ -34,10 +34,10 @@
                 <div class="course-information">
                     <h2>@Model.CourseDetails.Name</h2>
                     <span>
-                        <span>@Model.CourseDetails.Price.ToString("#,##0,VNĐ")</span>
+                        <span>@Model.CourseDetails.Price.ToString("#,##0")VNĐ</span>
                         @if (@Model.CourseDetails.Quantity > 0)
                         {
-                            <button type="button" class="btn btn-default cart">
+                            <button type="button" asp-action="Add" asp-controller="Cart" class="btn btn-default cart">
                                 <i class="fa fa-shopping-cart"></i>
                                 Đăng ký
                             </button>
@@ -116,7 +116,7 @@
                                         <div class="courseinfo text-center">
                                             <a asp-action="Details" asp-controller="Course" asp-route-Id="@relatedCourse.Id">
                                                 <img src="~/images/@relatedCourse.ImageUrl" alt="@relatedCourse.Name" style="width: 100%; height: 200px; object-fit: cover;" />
-                                                <h2>@relatedCourse.Price.ToString("#,##0,VNĐ")</h2>
+                                                <h2>@relatedCourse.Price.ToString("#,##0")VNĐ</h2>
                                                 <p>@relatedCourse.Name</p>
                                                 <p>Danh mục: @relatedCourse.Category.Name</p>
                                                 <p>Giảng viên: @relatedCourse.Instructor.Name</p>

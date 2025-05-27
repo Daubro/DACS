@@ -22,17 +22,17 @@ namespace Webbankhoahoconline.Controllers
         public async Task<IActionResult> Checkout(string OrderId)
         {
             var userEmail = User.FindFirstValue(ClaimTypes.Email);
-            if(userEmail == null)
+            if (userEmail == null)
             {
-            return RedirectToAction("Login", "Account");
+                return RedirectToAction("Login", "Account");
             }
             else
             {
-            var ordercode = Guid.NewGuid().ToString();
-            var orderItem = new OrderModel();
+                var ordercode = Guid.NewGuid().ToString();
+                var orderItem = new OrderModel();
                 orderItem.OrderCode = ordercode;
                 orderItem.UserName = userEmail;
-                if(OrderId != null)
+                if (OrderId != null)
                 {
                     orderItem.PaymentMethod = OrderId;
                 }
@@ -98,6 +98,50 @@ namespace Webbankhoahoconline.Controllers
 
             return View(response);
         }
+        public async Task<IActionResult> CheckoutCourse(long courseId)
+        {
+            var userEmail = User.FindFirstValue(ClaimTypes.Email);
+            if (userEmail == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var course = _dataContext.Courses.FirstOrDefault(co => co.Id == courseId);
+            if (course == null)
+            {
+                TempData["Error"] = "Khóa học không tồn tại!";
+                return RedirectToAction("Index", "Cart");
+            }
+
+            var ordercode = Guid.NewGuid().ToString();
+            var orderItem = new OrderModel
+            {
+                OrderCode = ordercode,
+                UserName = userEmail,
+                PaymentMethod = "COD",
+                OrderDate = DateTime.Now,
+                Status = 1
+            };
+
+            _dataContext.Add(orderItem);
+            await _dataContext.SaveChangesAsync();
+
+            var orderDetail = new OrderDetailModel
+            {
+                UserName = userEmail,
+                OrderCode = ordercode,
+                CourseId = courseId,
+                Price = course.Price,
+                Quantity = 1
+            };
+            _dataContext.Add(orderDetail);
+            await _dataContext.SaveChangesAsync();
+
+            TempData["Success"] = "Đơn hàng đã được tạo! Vui lòng đợi kiểm tra đơn hàng";
+            return RedirectToAction("Index", "Cart");
+        }
+
+
     }
 
 }

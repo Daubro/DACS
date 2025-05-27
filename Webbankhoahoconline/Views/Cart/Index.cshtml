@@ -1,6 +1,8 @@
 ﻿@using Webbankhoahoconline.Models.ViewModels
 @model CartItemViewModel
-
+@{
+    var firstItem = Model.CartItems.FirstOrDefault();
+}
 <h4>Giỏ hàng</h4>
 
 <section id="cart_items">
@@ -56,12 +58,17 @@
                         <tr>
                             <td colspan="6" class="text-right">
                                 <strong>Total Price:</strong>
-                                <span class="cart_total_price ml-3">$@Model.TotalPrice.ToString()</span>
+                                <span class="cart_total_price ml-3">@Model.TotalPrice.ToString("#,##0")VNĐ</span>
                                 <a class="btn btn-danger btn-sm ml-3" asp-controller="Cart" asp-action="Clear">Clear</a>
                                 @if (User.Identity?.IsAuthenticated ?? false)
                                 {
-                                    <a class="btn btn-primary btn-sm ml-3" onclick="return confirm('Xác nhận mua khóa học')" asp-controller="Checkout" asp-action="Checkout">Mua khóa học</a>
-                                    <form method="POST" asp-action="CreatePaymentMomo" asp-controller="Payment">
+                                    <a class="btn btn-primary btn-sm ml-3"
+                                       onclick="return confirm('Xác nhận mua khóa học')"
+                                       asp-controller="Checkout"
+                                       asp-action="CheckoutCourse"
+                                       asp-route-id="@firstItem?.CourseId">Mua khóa học</a>
+
+                                       <form method="POST" asp-action="CreatePaymentMomo" asp-controller="Payment">
 										<input type="hidden" name="Amount" value="@Model.TotalPrice" />
 										<input type="hidden" name="OrderId" value="@Guid.NewGuid().ToString()" />
 										<input type="hidden" name="OrderInfo" value="Thanh toán Momo cho đơn hàng tại Daubro" />

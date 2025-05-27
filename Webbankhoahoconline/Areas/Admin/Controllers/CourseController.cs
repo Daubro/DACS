@@ -189,7 +189,6 @@ namespace Webbankhoahoconline.Areas.Admin.Controllers
 
             return View(course);
         }
-
         public async Task<IActionResult> Delete(long Id)
         {
             CourseModel course = await _dataContext.Courses.FirstAsync(co => co.Id == Id);

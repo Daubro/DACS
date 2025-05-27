@@ -1,0 +1,22 @@
+﻿@model Webbankhoahoconline.Models.Momo.MomoExecuteResponseModel
+
+@{
+    ViewData["Title"] = "Thông báo thanh toán MoMo";
+}
+
+<h3>@ViewData["Title"]</h3>
+
+@if (Model == null)
+{
+    <p>Không có dữ liệu về đơn hàng.</p>
+}
+else
+{
+    <h5>Thông tin thanh toán MoMo:</h5>
+    <h6>OrderId: @Model.OrderId</h6>
+    <h6>OrderInfo: @Model.OrderInfo</h6>
+    <h6>Tổng tiền: @Model.Amount</h6>
+    <h6>Người thanh toán: @Model.FullName</h6>
+
+    <h5><a asp-controller="Account" asp-action="History">Xem lịch sử đơn hàng đã đặt</a></h5>
+}

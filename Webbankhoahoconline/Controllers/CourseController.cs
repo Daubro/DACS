@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Webbankhoahoconline.Repositories;
 using Webbankhoahoconline.Models.ViewModels;
+using System.Security.Claims;
 
 namespace Webbankhoahoconline.Controllers
 {
@@ -29,6 +30,35 @@ namespace Webbankhoahoconline.Controllers
                 .ToListAsync();
             ViewBag.Keyword = searchTerm;
             return View(courses);
+        }
+        [HttpGet]
+        public async Task<IActionResult> Learn(int id)
+        {
+            var userEmail = User.FindFirstValue(ClaimTypes.Email);
+            if (userEmail == null)
+                return RedirectToAction("Login", "Account");
+
+            // Kiểm tra user đã mua khóa học chưa
+            var hasPurchased = await _dataContext.OrderDetails
+                .AnyAsync(od => od.UserName == userEmail && od.CourseId == id);
+
+            if (!hasPurchased)
+            {
+                Console.WriteLine("Người dùng chưa mua khóa học.");
+                return View("NotPurchased");
+            }
+
+
+            var course = await _dataContext.Courses
+                .Include(c => c.Videos)
+                .FirstOrDefaultAsync(c => c.Id == id);
+
+            if (course == null)
+            {
+                return NotFound();
+            }
+
+            return View(course); // Truyền sang view Learn.cshtml
         }
         // Xem chi tiết khóa học
         public async Task<IActionResult> Details(long id)

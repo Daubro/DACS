@@ -31,12 +31,12 @@
 				<td>@item.Course.Name</td>
 				<td>@item.Price</td>
 				<td>@item.Quantity</td>
-				<td>@subTotalPrice.ToString("C")</td>  
+                <td>@subTotalPrice.ToString("#,##0")VNĐ</td>
             </tr>
         }
         <tr>
             <th colspan="5"> TotalPrice: </th>
-			<td colspan="2">@totalPrice.ToString("C")</td>
+            <td colspan="2">@totalPrice.ToString("#,##0")VNĐ</td>
             <td></td>
             <td></td>
             <td></td>
@@ -44,9 +44,11 @@
             <td>
                 @if(@ViewBag.Status !=3){
                 <select class="form-control select-update-order" data-ordercode="@Model.FirstOrDefault()?.OrderCode">
-                    
-                    <option value="1">Đơn hàng mới</option>
-                         <option value="0">Đã xử lý</option>
+
+                        <option value="1">Đơn hàng mới</option>
+                        <option value="2">Đã xử lý</option>
+                        <option value="0">Đã hủy</option>
+
             </select>
                 }
             </td>

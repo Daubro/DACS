@@ -17,6 +17,7 @@ namespace Webbankhoahoconline.Areas.Admin.Controllers
         public async Task<IActionResult> CreatePaymentMomo(OrderInfoModel model)
         {
             var response = await _momoService.CreatePaymentMomo(model);
+
             return Redirect(response.PayUrl);
         }
 

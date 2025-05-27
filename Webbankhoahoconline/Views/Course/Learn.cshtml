@@ -1,0 +1,22 @@
+﻿@model Webbankhoahoconline.Models.CourseModel
+
+<h2>@Model.Name</h2>
+<p>@Model.Description</p>
+
+@if (Model.Videos != null && Model.Videos.Any())
+{
+    foreach (var video in Model.Videos)
+    {
+        <h4>@video.FileName</h4>
+        <video width="800" height="450" controls>
+            <source src="@video.Url" type="video/mp4" />
+            Trình duyệt không hỗ trợ video.
+        </video>
+        <hr />
+    }
+}
+else
+{
+    <p>Chưa có video nào cho khóa học này.</p>
+}
+
