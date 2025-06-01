@@ -1,10 +1,29 @@
 ﻿@using Webbankhoahoconline.Models.Momo
 @model MomoExecuteResponseModel
 @{
-	ViewData["Title"] = "Payment Callback";
+    ViewData["Title"] = "Payment Callback";
 }
-<h5>Thanh toán Momo thành công với:</h5>
-<h6>OrderId: @Model.OrderId</h6>
-<h6>OrderInfo: @Model.OrderInfo</h6>
-<h6>Tổng tiền: @Model.Amount</h6>
-<h5>Xem <a asp-controller="Account" asp-action="History">Lịch sử đơn hàng đã đặt</a></h5>
+
+<div class="container mt-5">
+    <div class="card shadow-sm border-0 rounded-3">
+        <div class="card-body text-center">
+            <h4 class="text-success mb-4">✅ Thanh toán Momo thành công!</h4>
+
+            <ul class="list-group list-group-flush text-start w-75 mx-auto mb-4">
+                <li class="list-group-item">
+                    <strong>Mã đơn hàng:</strong> @Model.OrderId
+                </li>
+                <li class="list-group-item">
+                    <strong>Thông tin đơn hàng:</strong> @Model.OrderInfo
+                </li>
+                <li class="list-group-item">
+                    <strong>Tổng tiền:</strong> @Model.Amount VNĐ
+                </li>
+            </ul>
+
+            <a asp-controller="Account" asp-action="History" class="btn btn-primary">
+                Xem lịch sử đơn hàng đã đặt
+            </a>
+        </div>
+    </div>
+</div>

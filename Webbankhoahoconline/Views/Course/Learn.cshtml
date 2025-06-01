@@ -1,18 +1,29 @@
 ﻿@model List<CourseModel>
 
-@if (!Model.Any())
-{
-    <p>@ViewBag.Message</p>
-}
-else
-{
-    <ul>
-        @foreach (var course in Model)
-        {
-            <li>
-                @course.Name -
-                <a asp-action="Watch" asp-route-courseId="@course.Id">Xem video</a>
-            </li>
-        }
-    </ul>
-}
+<div class="container mt-4">
+    @if (!Model.Any())
+    {
+        <div class="alert alert-warning text-center" role="alert">
+            @ViewBag.Message
+        </div>
+    }
+    else
+    {
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Khóa học của bạn</h5>
+            </div>
+            <ul class="list-group list-group-flush">
+                @foreach (var course in Model)
+                {
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>@course.Name</span>
+                        <a class="btn btn-sm btn-outline-success" asp-action="Watch" asp-route-courseId="@course.Id">
+                            Xem video
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+    }
+</div>

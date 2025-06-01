@@ -135,7 +135,6 @@ namespace Webbankhoahoconline.Controllers
                 string errorMessage = string.Join("\n", errors);
                 return RedirectToAction("Details", new { id = review.CourseId });
             }
-            return RedirectToAction("Details", "Course");
         }
         public async Task<IActionResult> Learn()
         {

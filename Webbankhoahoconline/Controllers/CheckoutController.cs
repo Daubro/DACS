@@ -34,7 +34,7 @@ namespace Webbankhoahoconline.Controllers
             {
                 OrderCode = ordercode,
                 UserName = userEmail,
-                UserId = userId, // Gán UserId cho order
+                UserId = userId, 
                 PaymentMethod = OrderId ?? "COD",
                 OrderDate = DateTime.Now,
                 Status = 1
@@ -49,8 +49,8 @@ namespace Webbankhoahoconline.Controllers
                 var orderDetail = new OrderDetailModel
                 {
                     UserName = userEmail,
-                    OrderId = orderItem.Id,  // Gán khóa ngoại OrderId đúng
-                    OrderCode = orderItem.OrderCode,  // Gán OrderCode đúng
+                    OrderId = orderItem.Id, 
+                    OrderCode = orderItem.OrderCode,
                     CourseId = cart.CourseId,
                     Price = cart.Price,
                     Quantity = 1

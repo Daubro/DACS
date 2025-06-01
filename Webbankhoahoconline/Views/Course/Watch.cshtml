@@ -1,28 +1,148 @@
 ﻿@model List<Webbankhoahoconline.Models.VideoModel>
 
-<h2>Danh sách video của khóa học @Model.FirstOrDefault()?.Course.Name</h2>
+@{
+    var firstVideo = Model.FirstOrDefault();
+}
 
-@if (Model == null || !Model.Any())
-{
-    <div>@ViewBag.Message</div>
-}
-else
-{
-    <div class="row">
-        @foreach (var video in Model)
-        {
-            <div class="col-md-4 mb-3">
-                <div class="card">
-                    <div class="card-header">@video.FileName</div>
-                    <div class="card-body">
-                        <video controls width="100%" height="200">
-                            <source src="@video.Url" type="video/mp4" />
-                            Trình duyệt không hỗ trợ video.
-                        </video>
-                        <p><small>Ngày tải: @video.UploadDate.ToString("dd/MM/yyyy HH:mm")</small></p>
-                    </div>
-                </div>
+<h2 class="mb-4">🎓 Khóa học: @firstVideo?.Course?.Name</h2>
+
+<div class="row">
+    <!-- Cột phát video chính -->
+    <div class="col-md-8">
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5>@firstVideo?.FileName</h5>
+                <video id="main-video" controls width="100%" height="400">
+                    <source src="@firstVideo?.Url" type="video/mp4" />
+                    Trình duyệt không hỗ trợ video.
+                </video>
+                <p class="text-muted mt-2">
+                    <small>📅 Ngày tải: @firstVideo?.UploadDate.ToString("dd/MM/yyyy HH:mm")</small>
+                </p>
             </div>
-        }
+        </div>
     </div>
+
+    <!-- Cột danh sách video -->
+    <div class="col-md-4">
+        <div class="list-group">
+            @foreach (var video in Model)
+            {
+                <button type="button" class="list-group-item list-group-item-action video-btn"
+                        data-url="@video.Url"
+                        data-title="@video.FileName"
+                        data-date="@video.UploadDate.ToString("dd/MM/yyyy HH:mm")">
+                    🎬 @video.FileName
+                    <span class="float-end status-badge"></span>
+                </button>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const videoButtons = document.querySelectorAll('.video-btn');
+            const mainVideo = document.getElementById('main-video');
+            const videoTitle = document.querySelector('h5');
+            const uploadDate = document.querySelector('.text-muted small');
+            let currentKey = "";
+
+            // Ghi nhớ video gần nhất
+            function saveLastWatched(url) {
+                localStorage.setItem("video-last-watched", url);
+            }
+
+            // Đánh dấu trạng thái hoàn thành
+            function updateVideoStatus() {
+                videoButtons.forEach(btn => {
+                    const url = btn.dataset.url;
+                    const key = "video-progress-" + url;
+                    const badge = btn.querySelector('.status-badge');
+                    const done = localStorage.getItem(key + "-done");
+
+                    badge.textContent = done === "true" ? "✅" : "";
+                });
+            }
+
+            // Load lại thời gian xem cũ
+            function loadProgress() {
+                const time = localStorage.getItem(currentKey);
+                if (time) {
+                    mainVideo.currentTime = parseFloat(time);
+                }
+            }
+
+            // Chọn và phát video
+            function playVideoByButton(button) {
+                const newUrl = button.dataset.url;
+                const newTitle = button.dataset.title;
+                const newDate = button.dataset.date;
+
+                currentKey = "video-progress-" + newUrl;
+
+                mainVideo.src = newUrl;
+                videoTitle.textContent = newTitle;
+                uploadDate.textContent = "📅 Ngày tải: " + newDate;
+
+                saveLastWatched(newUrl);
+
+                mainVideo.load();
+                mainVideo.addEventListener('loadedmetadata', loadProgress, { once: true });
+                mainVideo.play();
+            }
+
+            // Gắn sự kiện click cho từng nút video
+            videoButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    playVideoByButton(button);
+                });
+            });
+
+            // Lưu tiến độ xem mỗi 5 giây
+            setInterval(() => {
+                if (!mainVideo.paused && !mainVideo.ended && currentKey) {
+                    localStorage.setItem(currentKey, mainVideo.currentTime);
+                }
+            }, 5000);
+
+            // Khi kết thúc video
+            mainVideo.addEventListener('ended', () => {
+                if (currentKey) {
+                    localStorage.setItem(currentKey + "-done", "true");
+                    updateVideoStatus();
+                }
+
+                const currentUrl = new URL(mainVideo.src, window.location.origin).href;
+
+                for (let i = 0; i < videoButtons.length; i++) {
+                    const btnUrl = new URL(videoButtons[i].dataset.url, window.location.origin).href;
+
+                    if (btnUrl === currentUrl) {
+                        if (i + 1 < videoButtons.length) {
+                            videoButtons[i + 1].click();
+                        }
+                        break;
+                    }
+                }
+            });
+
+            // Phát lại video gần nhất đã xem
+            const lastWatched = localStorage.getItem("video-last-watched");
+            const lastButton = Array.from(videoButtons).find(btn =>
+                new URL(btn.dataset.url, window.location.origin).href ===
+                new URL(lastWatched || "", window.location.origin).href
+            );
+
+            if (lastButton) {
+                lastButton.click();
+            } else if (videoButtons.length > 0) {
+                videoButtons[0].click();
+            }
+
+            updateVideoStatus();
+        });
+    </script>
 }
+
